@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
-import { ArrowDown, Download, Eye } from 'lucide-react';
+import { ArrowDown, Download, Github, Instagram, Linkedin } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import { MagneticButton } from '@/components/portfolio/ui/magnetic-button';
 import { useAppearance } from '@/hooks/use-appearance';
 
 function AnimatedBackground() {
@@ -43,13 +42,13 @@ function AnimatedBackground() {
         }
 
         function initParticles() {
-            particles = Array.from({ length: 50 }, () => ({
+            particles = Array.from({ length: 30 }, () => ({
                 x: Math.random() * (canvas?.width ?? 1920),
                 y: Math.random() * (canvas?.height ?? 1080),
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3,
-                size: Math.random() * 2 + 0.5,
-                opacity: Math.random() * 0.3 + 0.1,
+                vx: (Math.random() - 0.5) * 0.2,
+                vy: (Math.random() - 0.5) * 0.2,
+                size: Math.random() * 1.5 + 0.5,
+                opacity: Math.random() * 0.2 + 0.05,
             }));
         }
 
@@ -76,27 +75,8 @@ function AnimatedBackground() {
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fillStyle = isDark
                     ? `rgba(99, 102, 241, ${p.opacity})`
-                    : `rgba(79, 70, 229, ${p.opacity * 0.6})`;
+                    : `rgba(79, 70, 229, ${p.opacity * 0.5})`;
                 ctx.fill();
-            });
-
-            particles.forEach((a, i) => {
-                particles.slice(i + 1).forEach((b) => {
-                    const dx = a.x - b.x;
-                    const dy = a.y - b.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-
-                    if (dist < 150) {
-                        ctx.beginPath();
-                        ctx.moveTo(a.x, a.y);
-                        ctx.lineTo(b.x, b.y);
-                        ctx.strokeStyle = isDark
-                            ? `rgba(99, 102, 241, ${0.05 * (1 - dist / 150)})`
-                            : `rgba(79, 70, 229, ${0.08 * (1 - dist / 150)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                });
             });
 
             animationId = requestAnimationFrame(animate);
@@ -135,26 +115,21 @@ const textVariants = {
     }),
 };
 
-const floatingCards = [
+const socialLinks = [
     {
-        label: 'React + TypeScript',
-        color: 'from-indigo-500/20 to-violet-500/20',
-        pos: 'top-[15%] right-[8%]',
+        icon: Linkedin,
+        href: 'https://linkedin.com/in/intra-sepriansa',
+        label: 'LinkedIn',
     },
     {
-        label: 'Laravel API',
-        color: 'from-emerald-500/20 to-teal-500/20',
-        pos: 'top-[35%] right-[3%]',
+        icon: Github,
+        href: 'https://github.com/Intra-Sepriansa',
+        label: 'GitHub',
     },
     {
-        label: 'Dashboard UI',
-        color: 'from-violet-500/20 to-pink-500/20',
-        pos: 'bottom-[30%] right-[10%]',
-    },
-    {
-        label: 'AI Workflow',
-        color: 'from-blue-500/20 to-cyan-500/20',
-        pos: 'bottom-[15%] right-[5%]',
+        icon: Instagram,
+        href: 'https://instagram.com/intrasepriansa',
+        label: 'Instagram',
     },
 ];
 
@@ -166,200 +141,286 @@ export function HeroSection() {
         >
             <AnimatedBackground />
 
-            <div className="pointer-events-none absolute inset-0 z-0">
-                <div className="absolute top-1/4 left-1/4 h-[500px] w-[500px] rounded-full bg-indigo-200/40 blur-[120px] dark:bg-indigo-600/[0.07]" />
-                <div className="absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-full bg-violet-200/30 blur-[100px] dark:bg-violet-600/[0.05]" />
-            </div>
+            {/* Social icons - left side */}
+            <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1, duration: 0.6 }}
+                className="absolute left-6 top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-5 lg:flex xl:left-10"
+            >
+                {socialLinks.map((social) => (
+                    <a
+                        key={social.label}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={social.label}
+                        className="text-slate-400 transition-colors duration-300 hover:text-indigo-500 dark:text-slate-500 dark:hover:text-indigo-400"
+                    >
+                        <social.icon className="h-5 w-5" />
+                    </a>
+                ))}
+            </motion.div>
 
-            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-32">
-                <div className="grid items-center gap-12 lg:grid-cols-2">
-                    <div>
-                        <motion.span
+            {/* Main content */}
+            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-20">
+                {/* Desktop: split layout */}
+                <div className="hidden items-center justify-between lg:flex">
+                    {/* Left text */}
+                    <div className="max-w-xs">
+                        <motion.p
                             custom={0}
                             initial="hidden"
                             animate="visible"
                             variants={textVariants}
-                            className="mb-4 inline-block rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-1.5 text-xs font-medium tracking-widest text-indigo-600 uppercase dark:text-indigo-300"
+                            className="mb-2 text-sm font-medium tracking-wider text-indigo-500 italic dark:text-indigo-400"
                         >
-                            Full-Stack Web Developer
-                        </motion.span>
-
+                            Hello, I&apos;m
+                        </motion.p>
                         <motion.h1
                             custom={1}
                             initial="hidden"
                             animate="visible"
                             variants={textVariants}
-                            className="text-4xl leading-[1.1] font-bold tracking-tight text-slate-900 md:text-5xl lg:text-6xl dark:text-white"
+                            className="text-5xl leading-[1.05] font-bold tracking-tight text-slate-900 xl:text-6xl dark:text-white"
                         >
-                            Building modern web applications with{' '}
-                            <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">
-                                clean UI
-                            </span>
-                            , scalable systems, and interactive digital
-                            experiences.
+                            Intra
+                            <br />
+                            Sepriansa
                         </motion.h1>
-
-                        <motion.p
-                            custom={2}
-                            initial="hidden"
-                            animate="visible"
-                            variants={textVariants}
-                            className="mt-6 max-w-xl text-base leading-relaxed text-slate-500 md:text-lg dark:text-slate-400"
-                        >
-                            I design and build full-stack web platforms for
-                            education, dashboards, AI-assisted workflows, CMS,
-                            decision support systems, and digital institutions.
-                        </motion.p>
-
-                        <motion.div
-                            custom={3}
-                            initial="hidden"
-                            animate="visible"
-                            variants={textVariants}
-                            className="mt-8 flex flex-wrap gap-4"
-                        >
-                            <MagneticButton
-                                variant="primary"
-                                href="#projects"
-                                onClick={() => {
-                                    document
-                                        .getElementById('projects')
-                                        ?.scrollIntoView({
-                                            behavior: 'smooth',
-                                        });
-                                }}
-                            >
-                                <Eye className="h-4 w-4" />
-                                View Projects
-                            </MagneticButton>
-                            <MagneticButton variant="outline" href="#contact">
-                                Let&apos;s Talk
-                            </MagneticButton>
-                            <MagneticButton variant="secondary">
-                                <Download className="h-4 w-4" />
-                                Download CV
-                            </MagneticButton>
-                        </motion.div>
                     </div>
 
-                    <div className="relative hidden lg:block">
-                        {floatingCards.map((card, i) => (
-                            <motion.div
-                                key={card.label}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{
-                                    delay: 0.8 + i * 0.15,
-                                    duration: 0.5,
-                                }}
-                                className={`absolute ${card.pos}`}
-                            >
-                                <motion.div
-                                    animate={{ y: [0, -8, 0] }}
-                                    transition={{
-                                        duration: 3 + i * 0.5,
-                                        repeat: Infinity,
-                                        ease: 'easeInOut',
-                                    }}
-                                    className={`rounded-xl border border-slate-200 bg-gradient-to-br ${card.color} px-5 py-3 text-sm font-medium text-slate-700 shadow-xl dark:border-white/10 dark:text-white/80 dark:backdrop-blur-sm`}
-                                >
-                                    {card.label}
-                                </motion.div>
-                            </motion.div>
-                        ))}
+                    {/* Center visual - abstract orb with purple glow */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
+                        className="relative flex items-center justify-center"
+                    >
+                        {/* Outer purple glow */}
+                        <div className="absolute h-[350px] w-[350px] rounded-full bg-violet-500/20 blur-[80px] xl:h-[420px] xl:w-[420px] dark:bg-violet-600/25" />
+                        <div className="absolute h-[250px] w-[250px] rounded-full bg-indigo-500/15 blur-[60px] xl:h-[300px] xl:w-[300px] dark:bg-indigo-500/20" />
 
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.6, duration: 0.6 }}
-                            className="mx-auto w-[380px] rounded-2xl border border-slate-200 bg-white p-6 shadow-lg dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none dark:backdrop-blur-sm"
-                        >
-                            <div className="mb-4 flex items-center gap-2">
-                                <div className="h-3 w-3 rounded-full bg-red-500/60" />
-                                <div className="h-3 w-3 rounded-full bg-yellow-500/60" />
-                                <div className="h-3 w-3 rounded-full bg-green-500/60" />
-                                <span className="ml-2 text-xs text-slate-400 dark:text-slate-500">
-                                    portfolio.tsx
+                        {/* Abstract visual element */}
+                        <div className="relative flex h-[280px] w-[280px] items-center justify-center xl:h-[340px] xl:w-[340px]">
+                            {/* Rotating ring */}
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{
+                                    duration: 20,
+                                    repeat: Infinity,
+                                    ease: 'linear',
+                                }}
+                                className="absolute inset-0 rounded-full border border-indigo-300/20 dark:border-indigo-500/20"
+                            />
+                            <motion.div
+                                animate={{ rotate: -360 }}
+                                transition={{
+                                    duration: 25,
+                                    repeat: Infinity,
+                                    ease: 'linear',
+                                }}
+                                className="absolute inset-4 rounded-full border border-violet-300/15 dark:border-violet-500/15"
+                            />
+
+                            {/* Inner orb */}
+                            <div className="relative flex h-[200px] w-[200px] items-center justify-center rounded-full bg-gradient-to-br from-indigo-100/80 via-violet-100/60 to-purple-100/80 shadow-2xl xl:h-[240px] xl:w-[240px] dark:from-indigo-600/20 dark:via-violet-600/30 dark:to-purple-600/20 dark:shadow-violet-500/10">
+                                <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-white/90 to-slate-50/80 dark:from-[#0c0c20] dark:to-[#12122a]" />
+                                {/* Monogram */}
+                                <span className="relative bg-gradient-to-br from-indigo-500 to-violet-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent xl:text-5xl dark:from-indigo-400 dark:to-violet-400">
+                                    {'<IS/>'}
                                 </span>
                             </div>
-                            <div className="space-y-2 font-mono text-xs text-slate-500 dark:text-slate-400">
-                                <p>
-                                    <span className="text-violet-500 dark:text-violet-400">
-                                        const
-                                    </span>{' '}
-                                    <span className="text-blue-500 dark:text-blue-300">
-                                        developer
-                                    </span>{' '}
-                                    = {'{'}
-                                </p>
-                                <p className="pl-4">
-                                    <span className="text-emerald-600 dark:text-emerald-400">
-                                        name
-                                    </span>
-                                    :{' '}
-                                    <span className="text-amber-600 dark:text-amber-300">
-                                        &quot;Intra Sepriansa&quot;
-                                    </span>
-                                    ,
-                                </p>
-                                <p className="pl-4">
-                                    <span className="text-emerald-600 dark:text-emerald-400">
-                                        role
-                                    </span>
-                                    :{' '}
-                                    <span className="text-amber-600 dark:text-amber-300">
-                                        &quot;Full-Stack Dev&quot;
-                                    </span>
-                                    ,
-                                </p>
-                                <p className="pl-4">
-                                    <span className="text-emerald-600 dark:text-emerald-400">
-                                        stack
-                                    </span>
-                                    : [
-                                    <span className="text-amber-600 dark:text-amber-300">
-                                        &quot;React&quot;
-                                    </span>
-                                    ,{' '}
-                                    <span className="text-amber-600 dark:text-amber-300">
-                                        &quot;Laravel&quot;
-                                    </span>
-                                    ],
-                                </p>
-                                <p className="pl-4">
-                                    <span className="text-emerald-600 dark:text-emerald-400">
-                                        focus
-                                    </span>
-                                    :{' '}
-                                    <span className="text-amber-600 dark:text-amber-300">
-                                        &quot;Modern Web Apps&quot;
-                                    </span>
-                                    ,
-                                </p>
-                                <p>{'};'}</p>
-                            </div>
-                        </motion.div>
+
+                            {/* Floating accent dots */}
+                            <motion.div
+                                animate={{ y: [0, -10, 0] }}
+                                transition={{
+                                    duration: 3,
+                                    repeat: Infinity,
+                                    ease: 'easeInOut',
+                                }}
+                                className="absolute -top-2 right-8 h-2 w-2 rounded-full bg-indigo-400/60 dark:bg-indigo-400/40"
+                            />
+                            <motion.div
+                                animate={{ y: [0, 8, 0] }}
+                                transition={{
+                                    duration: 4,
+                                    repeat: Infinity,
+                                    ease: 'easeInOut',
+                                }}
+                                className="absolute bottom-4 -left-2 h-3 w-3 rounded-full bg-violet-400/50 dark:bg-violet-400/30"
+                            />
+                            <motion.div
+                                animate={{ y: [0, -6, 0] }}
+                                transition={{
+                                    duration: 3.5,
+                                    repeat: Infinity,
+                                    ease: 'easeInOut',
+                                }}
+                                className="absolute right-0 bottom-12 h-1.5 w-1.5 rounded-full bg-purple-400/60 dark:bg-purple-400/40"
+                            />
+                        </div>
+                    </motion.div>
+
+                    {/* Right text */}
+                    <div className="max-w-xs text-right">
+                        <motion.p
+                            custom={0}
+                            initial="hidden"
+                            animate="visible"
+                            variants={textVariants}
+                            className="mb-2 text-sm font-medium tracking-wider text-slate-500 dark:text-slate-400"
+                        >
+                            Full-Stack
+                        </motion.p>
+                        <motion.h2
+                            custom={1}
+                            initial="hidden"
+                            animate="visible"
+                            variants={textVariants}
+                            className="text-5xl leading-[1.05] font-bold tracking-tight xl:text-6xl"
+                        >
+                            <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">
+                                Developer
+                            </span>
+                            <br />
+                            <span className="text-slate-900 dark:text-white">
+                                &amp; Builder
+                            </span>
+                        </motion.h2>
                     </div>
                 </div>
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.5 }}
-                    className="absolute bottom-8 left-1/2 -translate-x-1/2"
-                >
-                    <motion.div
-                        animate={{ y: [0, 8, 0] }}
-                        transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: 'easeInOut',
-                        }}
+                {/* Mobile layout */}
+                <div className="flex flex-col items-center text-center lg:hidden">
+                    <motion.p
+                        custom={0}
+                        initial="hidden"
+                        animate="visible"
+                        variants={textVariants}
+                        className="mb-2 text-sm font-medium tracking-wider text-indigo-500 italic dark:text-indigo-400"
                     >
-                        <ArrowDown className="h-5 w-5 text-slate-400 dark:text-slate-500" />
+                        Hello, I&apos;m
+                    </motion.p>
+                    <motion.h1
+                        custom={1}
+                        initial="hidden"
+                        animate="visible"
+                        variants={textVariants}
+                        className="text-4xl leading-[1.1] font-bold tracking-tight text-slate-900 sm:text-5xl dark:text-white"
+                    >
+                        Intra Sepriansa
+                    </motion.h1>
+
+                    {/* Mobile center visual */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.4, duration: 0.8 }}
+                        className="relative my-10 flex items-center justify-center"
+                    >
+                        <div className="absolute h-[250px] w-[250px] rounded-full bg-violet-500/20 blur-[60px] dark:bg-violet-600/25" />
+                        <div className="absolute h-[180px] w-[180px] rounded-full bg-indigo-500/15 blur-[40px] dark:bg-indigo-500/20" />
+                        <div className="relative flex h-[180px] w-[180px] items-center justify-center">
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{
+                                    duration: 20,
+                                    repeat: Infinity,
+                                    ease: 'linear',
+                                }}
+                                className="absolute inset-0 rounded-full border border-indigo-300/20 dark:border-indigo-500/20"
+                            />
+                            <div className="relative flex h-[140px] w-[140px] items-center justify-center rounded-full bg-gradient-to-br from-indigo-100/80 via-violet-100/60 to-purple-100/80 shadow-xl dark:from-indigo-600/20 dark:via-violet-600/30 dark:to-purple-600/20">
+                                <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-white/90 to-slate-50/80 dark:from-[#0c0c20] dark:to-[#12122a]" />
+                                <span className="relative bg-gradient-to-br from-indigo-500 to-violet-500 bg-clip-text text-3xl font-bold tracking-tight text-transparent dark:from-indigo-400 dark:to-violet-400">
+                                    {'<IS/>'}
+                                </span>
+                            </div>
+                        </div>
                     </motion.div>
-                </motion.div>
+
+                    <motion.h2
+                        custom={2}
+                        initial="hidden"
+                        animate="visible"
+                        variants={textVariants}
+                        className="text-3xl leading-[1.1] font-bold tracking-tight sm:text-4xl"
+                    >
+                        <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">
+                            Developer
+                        </span>{' '}
+                        <span className="text-slate-900 dark:text-white">
+                            &amp; Builder
+                        </span>
+                    </motion.h2>
+
+                    <motion.p
+                        custom={3}
+                        initial="hidden"
+                        animate="visible"
+                        variants={textVariants}
+                        className="mt-4 max-w-sm text-sm leading-relaxed text-slate-500 dark:text-slate-400"
+                    >
+                        Building modern web applications with clean UI,
+                        scalable systems, and interactive digital experiences.
+                    </motion.p>
+
+                    {/* Mobile social icons */}
+                    <motion.div
+                        custom={4}
+                        initial="hidden"
+                        animate="visible"
+                        variants={textVariants}
+                        className="mt-6 flex gap-5"
+                    >
+                        {socialLinks.map((social) => (
+                            <a
+                                key={social.label}
+                                href={social.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={social.label}
+                                className="text-slate-400 transition-colors hover:text-indigo-500 dark:text-slate-500 dark:hover:text-indigo-400"
+                            >
+                                <social.icon className="h-5 w-5" />
+                            </a>
+                        ))}
+                    </motion.div>
+                </div>
             </div>
+
+            {/* Resume button - bottom right */}
+            <motion.a
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+                href="#"
+                className="absolute right-8 bottom-8 z-20 hidden items-center gap-2 text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase transition-colors hover:text-indigo-500 lg:flex dark:text-slate-500 dark:hover:text-indigo-400"
+            >
+                Resume
+                <Download className="h-3.5 w-3.5" />
+            </motion.a>
+
+            {/* Scroll indicator */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 }}
+                className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2"
+            >
+                <motion.div
+                    animate={{ y: [0, 8, 0] }}
+                    transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                    }}
+                >
+                    <ArrowDown className="h-5 w-5 text-slate-400 dark:text-slate-500" />
+                </motion.div>
+            </motion.div>
         </section>
     );
 }
