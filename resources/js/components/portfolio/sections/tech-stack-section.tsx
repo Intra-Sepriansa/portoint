@@ -13,7 +13,7 @@ export function TechStackSection() {
         : skillCategories;
 
     return (
-        <section id="skills" className="bg-[#060612] py-24 md:py-32">
+        <section id="skills" className="bg-white py-24 md:py-32 dark:bg-[#060612]">
             <div className="mx-auto max-w-7xl px-6">
                 <SectionHeader
                     label="Tech Stack"
@@ -27,7 +27,7 @@ export function TechStackSection() {
                             'rounded-full px-4 py-2 text-xs font-medium transition-colors',
                             !activeCategory
                                 ? 'bg-indigo-600 text-white'
-                                : 'border border-white/10 text-slate-400 hover:text-white',
+                                : 'border border-slate-200 text-slate-500 hover:text-slate-900 dark:border-white/10 dark:text-slate-400 dark:hover:text-white',
                         )}
                     >
                         All
@@ -46,7 +46,7 @@ export function TechStackSection() {
                                 'rounded-full px-4 py-2 text-xs font-medium transition-colors',
                                 activeCategory === cat.name
                                     ? 'bg-indigo-600 text-white'
-                                    : 'border border-white/10 text-slate-400 hover:text-white',
+                                    : 'border border-slate-200 text-slate-500 hover:text-slate-900 dark:border-white/10 dark:text-slate-400 dark:hover:text-white',
                             )}
                         >
                             {cat.name}
@@ -63,9 +63,9 @@ export function TechStackSection() {
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
                             layout
-                            className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6"
+                            className="rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-white/[0.06] dark:bg-white/[0.02]"
                         >
-                            <h3 className="mb-4 text-sm font-semibold tracking-wide text-slate-300 uppercase">
+                            <h3 className="mb-4 text-sm font-semibold tracking-wide text-slate-600 uppercase dark:text-slate-300">
                                 {category.name}
                             </h3>
                             <div className="flex flex-wrap gap-2">

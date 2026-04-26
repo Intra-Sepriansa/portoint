@@ -24,13 +24,13 @@ export function GlowCard({
             whileHover={{ y: -4 }}
             transition={{ duration: 0.2 }}
             className={cn(
-                'group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-sm transition-all duration-300',
+                'group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 dark:border-white/[0.08] dark:bg-white/[0.03] dark:shadow-none dark:backdrop-blur-sm',
                 'hover:shadow-2xl',
                 glowMap[glowColor] ?? glowMap.indigo,
                 className,
             )}
         >
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-white/[0.02]" />
             <div className="relative z-10">{children}</div>
         </motion.div>
     );

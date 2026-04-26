@@ -44,9 +44,10 @@ export function MagneticButton({
     const variants: Record<string, string> = {
         primary:
             'bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-500/20',
-        secondary: 'bg-white/10 text-white hover:bg-white/15 backdrop-blur-sm',
+        secondary:
+            'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-white/10 dark:text-white dark:hover:bg-white/15 dark:backdrop-blur-sm',
         outline:
-            'border border-white/20 text-white hover:border-indigo-500/50 hover:bg-white/[0.03]',
+            'border border-slate-300 text-slate-700 hover:border-indigo-500/50 hover:bg-slate-50 dark:border-white/20 dark:text-white dark:hover:bg-white/[0.03]',
     };
 
     const Component = href ? 'a' : 'button';

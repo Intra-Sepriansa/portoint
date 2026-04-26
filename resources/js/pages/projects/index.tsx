@@ -44,7 +44,7 @@ export default function ProjectsIndex() {
             </Head>
 
             <div
-                className="min-h-screen bg-[#060612]"
+                className="min-h-screen bg-white dark:bg-[#060612]"
                 style={{ fontFamily: "'Inter', sans-serif" }}
             >
                 <ScrollProgress />
@@ -58,13 +58,13 @@ export default function ProjectsIndex() {
                             animate={{ opacity: 1, y: 0 }}
                             className="mb-16 text-center"
                         >
-                            <span className="mb-3 inline-block text-xs font-medium tracking-widest text-indigo-400 uppercase">
+                            <span className="mb-3 inline-block text-xs font-medium tracking-widest text-indigo-600 uppercase dark:text-indigo-400">
                                 Portfolio
                             </span>
-                            <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
+                            <h1 className="text-4xl font-bold tracking-tight text-slate-900 md:text-5xl dark:text-white">
                                 All Projects
                             </h1>
-                            <p className="mx-auto mt-4 max-w-2xl text-base text-slate-400">
+                            <p className="mx-auto mt-4 max-w-2xl text-base text-slate-500 dark:text-slate-400">
                                 A collection of web applications, platforms, and
                                 systems I&apos;ve designed and built.
                             </p>
@@ -80,13 +80,13 @@ export default function ProjectsIndex() {
                                 >
                                     <Link href={`/projects/${project.slug}`}>
                                         <GlowCard className="h-full cursor-pointer">
-                                            <span className="text-xs font-medium tracking-wide text-indigo-400 uppercase">
+                                            <span className="text-xs font-medium tracking-wide text-indigo-600 uppercase dark:text-indigo-400">
                                                 {project.category}
                                             </span>
-                                            <h2 className="mt-2 text-xl font-bold text-white">
+                                            <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
                                                 {project.name}
                                             </h2>
-                                            <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                                            <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
                                                 {project.shortDescription}
                                             </p>
 
@@ -101,7 +101,7 @@ export default function ProjectsIndex() {
                                                     ))}
                                                 {project.techStack.length >
                                                     5 && (
-                                                    <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-xs text-slate-500">
+                                                    <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-500 dark:border-white/10 dark:bg-white/[0.05]">
                                                         +
                                                         {project.techStack
                                                             .length - 5}
@@ -109,7 +109,7 @@ export default function ProjectsIndex() {
                                                 )}
                                             </div>
 
-                                            <div className="mt-6 flex items-center gap-2 text-sm text-indigo-400 transition-colors group-hover:text-indigo-300">
+                                            <div className="mt-6 flex items-center gap-2 text-sm text-indigo-600 transition-colors group-hover:text-indigo-500 dark:text-indigo-400 dark:group-hover:text-indigo-300">
                                                 View Case Study
                                                 <ArrowRight className="h-4 w-4" />
                                             </div>

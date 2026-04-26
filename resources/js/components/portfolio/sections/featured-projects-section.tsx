@@ -9,7 +9,7 @@ import { projects } from '@/data/projects';
 
 export function FeaturedProjectsSection() {
     return (
-        <section id="projects" className="bg-[#080818] py-24 md:py-32">
+        <section id="projects" className="bg-slate-50 py-24 md:py-32 dark:bg-[#080818]">
             <div className="mx-auto max-w-7xl px-6">
                 <SectionHeader
                     label="Featured Projects"
@@ -27,36 +27,36 @@ export function FeaturedProjectsSection() {
                             transition={{ delay: i * 0.1 }}
                         >
                             <GlowCard className="h-full p-0">
-                                <div className="relative overflow-hidden rounded-t-2xl border-b border-white/[0.06] bg-gradient-to-br from-indigo-600/10 via-violet-600/5 to-transparent p-8">
+                                <div className="relative overflow-hidden rounded-t-2xl border-b border-slate-200 bg-gradient-to-br from-indigo-600/10 via-violet-600/5 to-transparent p-8 dark:border-white/[0.06]">
                                     <div className="flex items-center gap-2">
                                         <div className="h-3 w-3 rounded-full bg-red-500/60" />
                                         <div className="h-3 w-3 rounded-full bg-yellow-500/60" />
                                         <div className="h-3 w-3 rounded-full bg-green-500/60" />
                                     </div>
-                                    <div className="mt-6 space-y-2 font-mono text-xs text-slate-500">
+                                    <div className="mt-6 space-y-2 font-mono text-xs text-slate-400 dark:text-slate-500">
                                         <p>
-                                            <span className="text-violet-400">
+                                            <span className="text-violet-500 dark:text-violet-400">
                                                 project
                                             </span>
                                             .
-                                            <span className="text-blue-300">
+                                            <span className="text-blue-500 dark:text-blue-300">
                                                 name
                                             </span>{' '}
                                             ={' '}
-                                            <span className="text-amber-300">
+                                            <span className="text-amber-600 dark:text-amber-300">
                                                 &quot;{project.name}&quot;
                                             </span>
                                         </p>
                                         <p>
-                                            <span className="text-violet-400">
+                                            <span className="text-violet-500 dark:text-violet-400">
                                                 project
                                             </span>
                                             .
-                                            <span className="text-blue-300">
+                                            <span className="text-blue-500 dark:text-blue-300">
                                                 type
                                             </span>{' '}
                                             ={' '}
-                                            <span className="text-amber-300">
+                                            <span className="text-amber-600 dark:text-amber-300">
                                                 &quot;{project.category}&quot;
                                             </span>
                                         </p>
@@ -64,13 +64,13 @@ export function FeaturedProjectsSection() {
                                 </div>
 
                                 <div className="p-6">
-                                    <span className="text-xs font-medium tracking-wide text-indigo-400 uppercase">
+                                    <span className="text-xs font-medium tracking-wide text-indigo-600 uppercase dark:text-indigo-400">
                                         {project.category}
                                     </span>
-                                    <h3 className="mt-2 text-xl font-bold text-white">
+                                    <h3 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
                                         {project.name}
                                     </h3>
-                                    <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                                    <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
                                         {project.shortDescription}
                                     </p>
 
@@ -98,7 +98,7 @@ export function FeaturedProjectsSection() {
                                                 />
                                             ))}
                                         {project.techStack.length > 6 && (
-                                            <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-xs text-slate-500">
+                                            <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-500 dark:border-white/10 dark:bg-white/[0.05]">
                                                 +{project.techStack.length - 6}
                                             </span>
                                         )}
@@ -117,7 +117,7 @@ export function FeaturedProjectsSection() {
                                                 href={project.links.demo}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-4 py-2 text-xs text-slate-400 transition-colors hover:text-white"
+                                                className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-4 py-2 text-xs text-slate-500 transition-colors hover:text-slate-900 dark:border-white/10 dark:text-slate-400 dark:hover:text-white"
                                             >
                                                 <ExternalLink className="h-3 w-3" />
                                                 Demo
@@ -128,7 +128,7 @@ export function FeaturedProjectsSection() {
                                                 href={project.links.github}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-4 py-2 text-xs text-slate-400 transition-colors hover:text-white"
+                                                className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-4 py-2 text-xs text-slate-500 transition-colors hover:text-slate-900 dark:border-white/10 dark:text-slate-400 dark:hover:text-white"
                                             >
                                                 <Github className="h-3 w-3" />
                                                 GitHub

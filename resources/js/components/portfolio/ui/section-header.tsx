@@ -22,15 +22,15 @@ export function SectionHeader({
             className={`mb-12 md:mb-16 ${align === 'center' ? 'text-center' : 'text-left'}`}
         >
             {label && (
-                <span className="mb-3 inline-block text-xs font-medium tracking-widest text-indigo-400 uppercase">
+                <span className="mb-3 inline-block text-xs font-medium tracking-widest text-indigo-600 uppercase dark:text-indigo-400">
                     {label}
                 </span>
             )}
-            <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl lg:text-5xl dark:text-white">
                 {title}
             </h2>
             {description && (
-                <p className="mx-auto mt-4 max-w-2xl text-base text-slate-400 md:text-lg">
+                <p className="mx-auto mt-4 max-w-2xl text-base text-slate-500 md:text-lg dark:text-slate-400">
                     {description}
                 </p>
             )}

@@ -9,27 +9,27 @@ const highlights = [
         title: 'Clean Interface',
         description:
             'Building intuitive, responsive UIs with modern frameworks and pixel-perfect design.',
-        color: 'text-indigo-400',
+        color: 'text-indigo-600 dark:text-indigo-400',
     },
     {
         icon: Layers,
         title: 'Scalable Backend',
         description:
             'Architecting robust APIs and server-side systems that grow with your product.',
-        color: 'text-emerald-400',
+        color: 'text-emerald-600 dark:text-emerald-400',
     },
     {
         icon: Workflow,
         title: 'Real Product Workflow',
         description:
             'Delivering end-to-end solutions from concept to deployment with structured processes.',
-        color: 'text-violet-400',
+        color: 'text-violet-600 dark:text-violet-400',
     },
 ];
 
 export function AboutSection() {
     return (
-        <section id="about" className="bg-[#060612] py-24 md:py-32">
+        <section id="about" className="bg-white py-24 md:py-32 dark:bg-[#060612]">
             <div className="mx-auto max-w-7xl px-6">
                 <SectionHeader label="About Me" title="Who I Am" />
 
@@ -37,7 +37,7 @@ export function AboutSection() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mx-auto mb-16 max-w-3xl text-center text-base leading-relaxed text-slate-400 md:text-lg"
+                    className="mx-auto mb-16 max-w-3xl text-center text-base leading-relaxed text-slate-500 md:text-lg dark:text-slate-400"
                 >
                     I am a full-stack web developer focused on building modern,
                     responsive, and scalable web applications. I work across
@@ -60,10 +60,10 @@ export function AboutSection() {
                                 <item.icon
                                     className={`mb-4 h-8 w-8 ${item.color}`}
                                 />
-                                <h3 className="mb-2 text-lg font-semibold text-white">
+                                <h3 className="mb-2 text-lg font-semibold text-slate-900 dark:text-white">
                                     {item.title}
                                 </h3>
-                                <p className="text-sm leading-relaxed text-slate-400">
+                                <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
                                     {item.description}
                                 </p>
                             </GlowCard>

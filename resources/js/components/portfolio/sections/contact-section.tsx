@@ -30,7 +30,7 @@ export function ContactSection() {
     }
 
     return (
-        <section id="contact" className="bg-[#080818] py-24 md:py-32">
+        <section id="contact" className="bg-slate-50 py-24 md:py-32 dark:bg-[#080818]">
             <div className="mx-auto max-w-7xl px-6">
                 <SectionHeader
                     label="Contact"
@@ -44,7 +44,7 @@ export function ContactSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h3 className="mb-6 text-lg font-semibold text-white">
+                        <h3 className="mb-6 text-lg font-semibold text-slate-900 dark:text-white">
                             Get in Touch
                         </h3>
 
@@ -62,11 +62,11 @@ export function ContactSection() {
                                         href={social.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 text-sm text-slate-400 transition-all hover:border-white/20 hover:text-white"
+                                        className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-500 transition-all hover:border-slate-300 hover:text-slate-900 dark:border-white/[0.06] dark:bg-white/[0.02] dark:text-slate-400 dark:hover:border-white/20 dark:hover:text-white"
                                     >
                                         <Icon className="h-5 w-5" />
                                         <div>
-                                            <p className="font-medium text-white">
+                                            <p className="font-medium text-slate-900 dark:text-white">
                                                 {social.name}
                                             </p>
                                             <p className="text-xs text-slate-500">
@@ -88,7 +88,7 @@ export function ContactSection() {
                             <div>
                                 <label
                                     htmlFor="contact-name"
-                                    className="mb-1.5 block text-xs font-medium text-slate-400"
+                                    className="mb-1.5 block text-xs font-medium text-slate-500 dark:text-slate-400"
                                 >
                                     Name
                                 </label>
@@ -103,14 +103,14 @@ export function ContactSection() {
                                             name: e.target.value,
                                         })
                                     }
-                                    className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white transition-colors outline-none placeholder:text-slate-600 focus:border-indigo-500/50"
+                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 transition-colors outline-none placeholder:text-slate-400 focus:border-indigo-500/50 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-slate-600"
                                     placeholder="Your name"
                                 />
                             </div>
                             <div>
                                 <label
                                     htmlFor="contact-email"
-                                    className="mb-1.5 block text-xs font-medium text-slate-400"
+                                    className="mb-1.5 block text-xs font-medium text-slate-500 dark:text-slate-400"
                                 >
                                     Email
                                 </label>
@@ -125,14 +125,14 @@ export function ContactSection() {
                                             contactEmail: e.target.value,
                                         })
                                     }
-                                    className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white transition-colors outline-none placeholder:text-slate-600 focus:border-indigo-500/50"
+                                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 transition-colors outline-none placeholder:text-slate-400 focus:border-indigo-500/50 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-slate-600"
                                     placeholder="your@email.com"
                                 />
                             </div>
                             <div>
                                 <label
                                     htmlFor="contact-message"
-                                    className="mb-1.5 block text-xs font-medium text-slate-400"
+                                    className="mb-1.5 block text-xs font-medium text-slate-500 dark:text-slate-400"
                                 >
                                     Message
                                 </label>
@@ -147,7 +147,7 @@ export function ContactSection() {
                                             message: e.target.value,
                                         })
                                     }
-                                    className="w-full resize-none rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white transition-colors outline-none placeholder:text-slate-600 focus:border-indigo-500/50"
+                                    className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 transition-colors outline-none placeholder:text-slate-400 focus:border-indigo-500/50 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:placeholder:text-slate-600"
                                     placeholder="Tell me about your project..."
                                 />
                             </div>

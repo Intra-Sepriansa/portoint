@@ -61,7 +61,7 @@ export default function ProjectShow({ project }: ProjectShowProps) {
             </Head>
 
             <div
-                className="min-h-screen bg-[#060612]"
+                className="min-h-screen bg-white dark:bg-[#060612]"
                 style={{ fontFamily: "'Inter', sans-serif" }}
             >
                 <ScrollProgress />
@@ -76,20 +76,20 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                         >
                             <Link
                                 href="/projects"
-                                className="mb-8 inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-white"
+                                className="mb-8 inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-slate-900 dark:hover:text-white"
                             >
                                 <ArrowLeft className="h-4 w-4" />
                                 All Projects
                             </Link>
 
                             <div className="mb-12">
-                                <span className="mb-3 inline-block text-xs font-medium tracking-wide text-indigo-400 uppercase">
+                                <span className="mb-3 inline-block text-xs font-medium tracking-wide text-indigo-600 uppercase dark:text-indigo-400">
                                     {project.category}
                                 </span>
-                                <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
+                                <h1 className="text-4xl font-bold tracking-tight text-slate-900 md:text-5xl dark:text-white">
                                     {project.name}
                                 </h1>
-                                <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-400">
+                                <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-500 dark:text-slate-400">
                                     {project.shortDescription}
                                 </p>
 
@@ -110,7 +110,7 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                             href={project.links.github}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-2 rounded-full border border-white/10 px-5 py-2 text-sm text-slate-400 hover:text-white"
+                                            className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2 text-sm text-slate-500 hover:text-slate-900 dark:border-white/10 dark:text-slate-400 dark:hover:text-white"
                                         >
                                             <Github className="h-4 w-4" />
                                             Source Code
@@ -126,11 +126,11 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
-                                    <Target className="h-5 w-5 text-indigo-400" />
+                                <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-slate-900 dark:text-white">
+                                    <Target className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                                     Overview
                                 </h2>
-                                <p className="leading-relaxed text-slate-400">
+                                <p className="leading-relaxed text-slate-500 dark:text-slate-400">
                                     {project.overview}
                                 </p>
                             </motion.section>
@@ -140,11 +140,11 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
-                                    <Lightbulb className="h-5 w-5 text-amber-400" />
+                                <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-slate-900 dark:text-white">
+                                    <Lightbulb className="h-5 w-5 text-amber-500 dark:text-amber-400" />
                                     Problem
                                 </h2>
-                                <p className="leading-relaxed text-slate-400">
+                                <p className="leading-relaxed text-slate-500 dark:text-slate-400">
                                     {project.problem}
                                 </p>
                             </motion.section>
@@ -154,11 +154,11 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
-                                    <CheckCircle className="h-5 w-5 text-emerald-400" />
+                                <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-slate-900 dark:text-white">
+                                    <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                                     Solution
                                 </h2>
-                                <p className="leading-relaxed text-slate-400">
+                                <p className="leading-relaxed text-slate-500 dark:text-slate-400">
                                     {project.solution}
                                 </p>
                             </motion.section>
@@ -168,11 +168,11 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
-                                    <Wrench className="h-5 w-5 text-violet-400" />
+                                <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-slate-900 dark:text-white">
+                                    <Wrench className="h-5 w-5 text-violet-600 dark:text-violet-400" />
                                     My Role
                                 </h2>
-                                <p className="leading-relaxed text-slate-400">
+                                <p className="leading-relaxed text-slate-500 dark:text-slate-400">
                                     {project.role}
                                 </p>
                             </motion.section>
@@ -182,17 +182,17 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <h2 className="mb-6 text-xl font-semibold text-white">
+                                <h2 className="mb-6 text-xl font-semibold text-slate-900 dark:text-white">
                                     Key Features
                                 </h2>
                                 <div className="grid gap-3 sm:grid-cols-2">
                                     {project.features.map((feature) => (
                                         <div
                                             key={feature}
-                                            className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3"
+                                            className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-white/[0.06] dark:bg-white/[0.02]"
                                         >
                                             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                                            <span className="text-sm text-slate-300">
+                                            <span className="text-sm text-slate-600 dark:text-slate-300">
                                                 {feature}
                                             </span>
                                         </div>
@@ -205,7 +205,7 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <h2 className="mb-6 text-xl font-semibold text-white">
+                                <h2 className="mb-6 text-xl font-semibold text-slate-900 dark:text-white">
                                     Tech Stack
                                 </h2>
                                 <div className="flex flex-wrap gap-2">
@@ -224,13 +224,13 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <h2 className="mb-6 text-xl font-semibold text-white">
+                                <h2 className="mb-6 text-xl font-semibold text-slate-900 dark:text-white">
                                     UI/UX Highlights
                                 </h2>
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     {project.uiHighlights.map((highlight) => (
                                         <GlowCard key={highlight}>
-                                            <p className="text-sm text-slate-300">
+                                            <p className="text-sm text-slate-600 dark:text-slate-300">
                                                 {highlight}
                                             </p>
                                         </GlowCard>
@@ -243,19 +243,19 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <h2 className="mb-6 text-xl font-semibold text-white">
+                                <h2 className="mb-6 text-xl font-semibold text-slate-900 dark:text-white">
                                     Challenges & Solutions
                                 </h2>
                                 <div className="space-y-3">
                                     {project.challenges.map((challenge, i) => (
                                         <div
                                             key={challenge}
-                                            className="flex gap-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4"
+                                            className="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-white/[0.06] dark:bg-white/[0.02]"
                                         >
-                                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-500/10 text-xs font-bold text-indigo-400">
+                                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-500/10 text-xs font-bold text-indigo-600 dark:text-indigo-400">
                                                 {i + 1}
                                             </span>
-                                            <p className="text-sm leading-relaxed text-slate-400">
+                                            <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
                                                 {challenge}
                                             </p>
                                         </div>
@@ -268,11 +268,11 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <h2 className="mb-4 text-xl font-semibold text-white">
+                                <h2 className="mb-4 text-xl font-semibold text-slate-900 dark:text-white">
                                     Result
                                 </h2>
                                 <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-6">
-                                    <p className="leading-relaxed text-slate-300">
+                                    <p className="leading-relaxed text-slate-600 dark:text-slate-300">
                                         {project.result}
                                     </p>
                                 </div>
@@ -282,12 +282,12 @@ export default function ProjectShow({ project }: ProjectShowProps) {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                className="rounded-2xl border border-white/[0.06] bg-gradient-to-br from-indigo-600/10 to-violet-600/5 p-8 text-center"
+                                className="rounded-2xl border border-slate-200 bg-gradient-to-br from-indigo-600/10 to-violet-600/5 p-8 text-center dark:border-white/[0.06]"
                             >
-                                <h2 className="mb-2 text-2xl font-bold text-white">
+                                <h2 className="mb-2 text-2xl font-bold text-slate-900 dark:text-white">
                                     Interested in working together?
                                 </h2>
-                                <p className="mb-6 text-sm text-slate-400">
+                                <p className="mb-6 text-sm text-slate-500 dark:text-slate-400">
                                     Let&apos;s discuss your project and bring
                                     your ideas to life.
                                 </p>

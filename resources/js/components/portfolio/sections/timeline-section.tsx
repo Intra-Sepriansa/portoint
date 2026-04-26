@@ -4,12 +4,12 @@ import { timelineItems } from '@/data/timeline';
 
 export function TimelineSection() {
     return (
-        <section className="bg-[#080818] py-24 md:py-32">
+        <section className="bg-slate-50 py-24 md:py-32 dark:bg-[#080818]">
             <div className="mx-auto max-w-3xl px-6">
                 <SectionHeader label="Journey" title="My Path So Far" />
 
                 <div className="relative">
-                    <div className="absolute top-0 bottom-0 left-[19px] w-px bg-gradient-to-b from-indigo-500/50 via-white/10 to-transparent md:left-1/2 md:-translate-x-px" />
+                    <div className="absolute top-0 bottom-0 left-[19px] w-px bg-gradient-to-b from-indigo-500/50 via-slate-200 to-transparent md:left-1/2 md:-translate-x-px dark:via-white/10" />
 
                     {timelineItems.map((item, i) => (
                         <motion.div
@@ -25,17 +25,17 @@ export function TimelineSection() {
                             }`}
                         >
                             <div
-                                className={`absolute top-1 left-[15px] h-2.5 w-2.5 rounded-full border-2 border-indigo-500 bg-[#080818] md:left-auto ${
+                                className={`absolute top-1 left-[15px] h-2.5 w-2.5 rounded-full border-2 border-indigo-500 bg-white md:left-auto dark:bg-[#080818] ${
                                     i % 2 === 0
                                         ? 'md:right-[-5px]'
                                         : 'md:left-[-5px]'
                                 }`}
                             />
 
-                            <span className="text-xs font-medium tracking-wide text-indigo-400 uppercase">
+                            <span className="text-xs font-medium tracking-wide text-indigo-600 uppercase dark:text-indigo-400">
                                 {item.period}
                             </span>
-                            <h3 className="mt-1 text-lg font-semibold text-white">
+                            <h3 className="mt-1 text-lg font-semibold text-slate-900 dark:text-white">
                                 {item.title}
                             </h3>
                             <p className="mt-2 text-sm leading-relaxed text-slate-500">

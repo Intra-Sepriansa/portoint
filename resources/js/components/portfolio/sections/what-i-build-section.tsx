@@ -64,7 +64,7 @@ const items = [
 
 export function WhatIBuildSection() {
     return (
-        <section className="bg-[#080818] py-24 md:py-32">
+        <section className="bg-slate-50 py-24 md:py-32 dark:bg-[#080818]">
             <div className="mx-auto max-w-7xl px-6">
                 <SectionHeader
                     label="What I Build"
@@ -82,8 +82,8 @@ export function WhatIBuildSection() {
                             transition={{ delay: i * 0.05 }}
                         >
                             <GlowCard className="h-full">
-                                <item.icon className="mb-3 h-6 w-6 text-indigo-400" />
-                                <h3 className="mb-1 text-sm font-semibold text-white">
+                                <item.icon className="mb-3 h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                                <h3 className="mb-1 text-sm font-semibold text-slate-900 dark:text-white">
                                     {item.title}
                                 </h3>
                                 <p className="text-xs leading-relaxed text-slate-500">

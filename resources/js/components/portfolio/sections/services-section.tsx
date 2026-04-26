@@ -28,7 +28,7 @@ const iconMap: Record<string, typeof Globe> = {
 
 export function ServicesSection() {
     return (
-        <section id="services" className="bg-[#060612] py-24 md:py-32">
+        <section id="services" className="bg-white py-24 md:py-32 dark:bg-[#060612]">
             <div className="mx-auto max-w-7xl px-6">
                 <SectionHeader
                     label="Services"
@@ -52,8 +52,8 @@ export function ServicesSection() {
                                     glowColor="emerald"
                                     className="h-full"
                                 >
-                                    <Icon className="mb-3 h-6 w-6 text-emerald-400" />
-                                    <h3 className="mb-1 text-sm font-semibold text-white">
+                                    <Icon className="mb-3 h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                                    <h3 className="mb-1 text-sm font-semibold text-slate-900 dark:text-white">
                                         {service.title}
                                     </h3>
                                     <p className="text-xs leading-relaxed text-slate-500">

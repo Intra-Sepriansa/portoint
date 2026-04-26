@@ -57,7 +57,7 @@ export default function Home() {
             </Head>
 
             <div
-                className="min-h-screen bg-[#060612]"
+                className="min-h-screen bg-white dark:bg-[#060612]"
                 style={{ fontFamily: "'Inter', sans-serif" }}
             >
                 <ScrollProgress />

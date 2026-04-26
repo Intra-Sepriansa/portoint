@@ -117,17 +117,17 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 z-[70] bg-black/60 backdrop-blur-sm"
+                        className="fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm dark:bg-black/60"
                     />
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95, y: -20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: -20 }}
                         transition={{ duration: 0.15 }}
-                        className="fixed inset-x-4 top-[20%] z-[71] mx-auto max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-[#12122a] shadow-2xl"
+                        className="fixed inset-x-4 top-[20%] z-[71] mx-auto max-w-lg overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#12122a]"
                     >
-                        <div className="flex items-center gap-3 border-b border-white/[0.06] px-4 py-3">
-                            <Search className="h-5 w-5 text-slate-500" />
+                        <div className="flex items-center gap-3 border-b border-slate-200 px-4 py-3 dark:border-white/[0.06]">
+                            <Search className="h-5 w-5 text-slate-400 dark:text-slate-500" />
                             <input
                                 ref={inputRef}
                                 value={query}
@@ -136,9 +136,9 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                                     setSelectedIndex(0);
                                 }}
                                 placeholder="Type a command or search..."
-                                className="flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
+                                className="flex-1 bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-slate-500"
                             />
-                            <kbd className="rounded border border-white/10 bg-white/[0.05] px-2 py-0.5 text-[10px] text-slate-500">
+                            <kbd className="rounded border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] text-slate-400 dark:border-white/10 dark:bg-white/[0.05] dark:text-slate-500">
                                 ESC
                             </kbd>
                         </div>
@@ -159,8 +159,8 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                                         className={cn(
                                             'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors',
                                             i === selectedIndex
-                                                ? 'bg-white/10 text-white'
-                                                : 'text-slate-400 hover:bg-white/[0.05] hover:text-white',
+                                                ? 'bg-slate-100 text-slate-900 dark:bg-white/10 dark:text-white'
+                                                : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/[0.05] dark:hover:text-white',
                                         )}
                                     >
                                         <Icon className="h-4 w-4 shrink-0" />
