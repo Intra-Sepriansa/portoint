@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="190" height="64" viewBox="0 0 190 64" role="img" aria-labelledby="title">
+  <title id="title">DomPDF</title>
+  <rect width="190" height="64" rx="18" fill="none"/>
+  <path d="M25 10h38l18 18v26H25z" fill="#ef4444"/>
+  <path d="M62 10v19h19" fill="#fecaca"/>
+  <text x="34" y="44" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="900">PDF</text>
+  <text x="95" y="40" fill="#ef4444" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="850">DomPDF</text>
+</svg>

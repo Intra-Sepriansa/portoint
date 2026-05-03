@@ -8,14 +8,42 @@ import { ContactSection } from '@/components/portfolio/sections/contact-section'
 import { DevelopmentApproachSection } from '@/components/portfolio/sections/development-approach-section';
 import { FeaturedProjectsSection } from '@/components/portfolio/sections/featured-projects-section';
 import { HeroSection } from '@/components/portfolio/sections/hero-section';
-import { ServicesSection } from '@/components/portfolio/sections/services-section';
 import { TechStackSection } from '@/components/portfolio/sections/tech-stack-section';
 import { TimelineSection } from '@/components/portfolio/sections/timeline-section';
 import { WhatIBuildSection } from '@/components/portfolio/sections/what-i-build-section';
+import { PortfolioLetterSwapOverlay } from '@/components/portfolio/ui/portfolio-letter-swap-overlay';
 import { ScrollProgress } from '@/components/portfolio/ui/scroll-progress';
+import type { PortfolioLanguage } from '@/data/portfolio-language';
+import { usePortfolioLanguage } from '@/hooks/use-portfolio-language';
+
+const homePageCopy = {
+    en: {
+        description:
+            'Portfolio of Intra Sepriansa, a full-stack web developer building modern web applications, dashboards, CMS platforms, EdTech systems, AI workflows, and institutional websites.',
+        ogDescription:
+            'Building modern web applications with clean UI, scalable systems, and interactive digital experiences.',
+        title: 'Intra Sepriansa - Full-Stack Web Developer',
+    },
+    id: {
+        description:
+            'Portofolio Intra Sepriansa, pengembang web full-stack yang membangun aplikasi web modern, dasbor, platform CMS, sistem EdTech, alur kerja AI, dan situs web institusi digital.',
+        ogDescription:
+            'Membangun aplikasi web modern dengan UI bersih, sistem yang dapat diskalakan, dan pengalaman digital interaktif.',
+        title: 'Intra Sepriansa - Pengembang Web Full-Stack',
+    },
+} satisfies Record<
+    PortfolioLanguage,
+    {
+        description: string;
+        ogDescription: string;
+        title: string;
+    }
+>;
 
 export default function Home() {
     const [commandOpen, setCommandOpen] = useState(false);
+    const [language, setLanguage, isLanguageChanging] = usePortfolioLanguage();
+    const copy = homePageCopy[language];
 
     const openCommand = useCallback(() => setCommandOpen(true), []);
     const closeCommand = useCallback(() => setCommandOpen(false), []);
@@ -35,19 +63,10 @@ export default function Home() {
 
     return (
         <>
-            <Head title="Intra Sepriansa — Full-Stack Web Developer">
-                <meta
-                    name="description"
-                    content="Portfolio of Intra Sepriansa, a full-stack web developer building modern web applications, dashboards, CMS platforms, EdTech systems, AI workflows, and digital institution websites."
-                />
-                <meta
-                    property="og:title"
-                    content="Intra Sepriansa — Full-Stack Web Developer"
-                />
-                <meta
-                    property="og:description"
-                    content="Building modern web applications with clean UI, scalable systems, and interactive digital experiences."
-                />
+            <Head title={copy.title}>
+                <meta name="description" content={copy.description} />
+                <meta property="og:title" content={copy.title} />
+                <meta property="og:description" content={copy.ogDescription} />
                 <meta property="og:type" content="website" />
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link
@@ -57,26 +76,39 @@ export default function Home() {
             </Head>
 
             <div
+                data-portfolio-language-shell
                 className="min-h-screen bg-white dark:bg-[#060612]"
                 style={{ fontFamily: "'Inter', sans-serif" }}
             >
                 <ScrollProgress />
-                <Navbar onCommandPalette={openCommand} />
-                <CommandPalette open={commandOpen} onClose={closeCommand} />
+                <PortfolioLetterSwapOverlay
+                    isChanging={isLanguageChanging}
+                    language={language}
+                />
+                <Navbar
+                    language={language}
+                    languageChanging={isLanguageChanging}
+                    onCommandPalette={openCommand}
+                    onLanguageChange={setLanguage}
+                />
+                <CommandPalette
+                    language={language}
+                    open={commandOpen}
+                    onClose={closeCommand}
+                />
 
                 <main>
-                    <HeroSection />
-                    <AboutSection />
-                    <WhatIBuildSection />
-                    <TechStackSection />
-                    <FeaturedProjectsSection />
-                    <DevelopmentApproachSection />
-                    <TimelineSection />
-                    <ServicesSection />
-                    <ContactSection />
+                    <HeroSection language={language} />
+                    <AboutSection language={language} />
+                    <WhatIBuildSection language={language} />
+                    <TechStackSection language={language} />
+                    <FeaturedProjectsSection language={language} />
+                    <DevelopmentApproachSection language={language} />
+                    <TimelineSection language={language} />
+                    <ContactSection language={language} />
                 </main>
 
-                <Footer />
+                <Footer language={language} />
             </div>
         </>
     );

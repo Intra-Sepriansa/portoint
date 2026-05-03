@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion';
 import { ArrowDown, Download, Github, Instagram, Linkedin } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
+import { RisingLines } from '@/components/portfolio/ui/rising-lines';
+import { ShaderReveal } from '@/components/portfolio/ui/shader-reveal';
+import { StaggeredText } from '@/components/portfolio/ui/staggered-text';
+import type { PortfolioLanguage } from '@/data/portfolio-language';
 import { useAppearance } from '@/hooks/use-appearance';
 
 function AnimatedBackground() {
@@ -133,20 +137,113 @@ const socialLinks = [
     },
 ];
 
-export function HeroSection() {
+type PortraitVisualProps = {
+    alt: string;
+    compact?: boolean;
+};
+
+function PortraitVisual({ alt, compact = false }: PortraitVisualProps) {
+    const { resolvedAppearance } = useAppearance();
+    const imageClassName = compact
+        ? 'h-[340px] max-h-[52vh] sm:h-[410px]'
+        : 'h-[86vh] max-h-[760px] min-h-[560px] xl:h-[88vh] xl:max-h-[840px]';
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, scale: 0.92, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.8, ease: 'easeOut' }}
+            className={`${imageClassName} aspect-[2/3] w-auto max-w-none select-none`}
+        >
+            <ShaderReveal
+                frontImage={
+                    resolvedAppearance === 'dark'
+                        ? '/person-light.png'
+                        : '/person.png'
+                }
+                backImage={
+                    resolvedAppearance === 'dark'
+                        ? '/reveal.png'
+                        : '/reveal-dark.png'
+                }
+                alt={alt}
+                className="h-full w-full"
+                mouseForce={50}
+                cursorSize={140}
+                resolution={0.5}
+                revealStrength={0.75}
+                revealSoftness={1}
+                backImageTranslateY={-0.018}
+                autoDemo={false}
+            />
+        </motion.div>
+    );
+}
+
+const heroCopy = {
+    en: {
+        ariaScroll: 'Scroll to About section',
+        builder: '& Builder',
+        developer: 'Developer',
+        greeting: 'Hi, I am',
+        mobileDescription:
+            'Building modern web applications with clean UI, scalable systems, and interactive digital experiences.',
+        portraitAlt:
+            'Portrait of Intra Sepriansa with a shader reveal armor transformation effect',
+        resume: 'Resume',
+    },
+    id: {
+        ariaScroll: 'Scroll ke bagian Tentang',
+        builder: '& Pembuat',
+        developer: 'Pengembang',
+        greeting: 'Halo, saya',
+        mobileDescription:
+            'Membangun aplikasi web modern dengan UI bersih, sistem dapat diskalakan, dan pengalaman digital interaktif.',
+        portraitAlt:
+            'Potret Intra Sepriansa dengan efek shader reveal transformasi armor',
+        resume: 'CV',
+    },
+} satisfies Record<
+    PortfolioLanguage,
+    {
+        ariaScroll: string;
+        builder: string;
+        developer: string;
+        greeting: string;
+        mobileDescription: string;
+        portraitAlt: string;
+        resume: string;
+    }
+>;
+
+type HeroSectionProps = {
+    language: PortfolioLanguage;
+};
+
+export function HeroSection({ language }: HeroSectionProps) {
+    const copy = heroCopy[language];
+
+    const scrollToAbout = useCallback(() => {
+        document.getElementById('about')?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
+    }, []);
+
     return (
         <section
             id="home"
-            className="relative flex min-h-screen items-center overflow-hidden bg-white dark:bg-[#060612]"
+            className="relative flex min-h-screen overflow-hidden bg-white dark:bg-[#060612]"
         >
             <AnimatedBackground />
+            <RisingLines className="z-0 opacity-45 dark:opacity-55" />
 
             {/* Social icons - left side */}
             <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1, duration: 0.6 }}
-                className="absolute left-6 top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-5 lg:flex xl:left-10"
+                className="absolute top-1/2 left-6 z-20 hidden -translate-y-1/2 flex-col gap-5 lg:flex xl:left-10"
             >
                 {socialLinks.map((social) => (
                     <a
@@ -163,11 +260,15 @@ export function HeroSection() {
             </motion.div>
 
             {/* Main content */}
-            <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-20">
+            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl items-center px-6 lg:px-20">
                 {/* Desktop: split layout */}
-                <div className="hidden items-center justify-between lg:flex">
+                <div className="hidden w-full items-center justify-between lg:flex">
+                    <div className="absolute bottom-0 left-1/2 z-0 -translate-x-1/2">
+                        <PortraitVisual alt={copy.portraitAlt} />
+                    </div>
+
                     {/* Left text */}
-                    <div className="max-w-xs">
+                    <div className="relative z-10 max-w-xs">
                         <motion.p
                             custom={0}
                             initial="hidden"
@@ -175,96 +276,30 @@ export function HeroSection() {
                             variants={textVariants}
                             className="mb-2 text-sm font-medium tracking-wider text-indigo-500 italic dark:text-indigo-400"
                         >
-                            Hello, I&apos;m
+                            {copy.greeting}
                         </motion.p>
                         <motion.h1
                             custom={1}
                             initial="hidden"
                             animate="visible"
                             variants={textVariants}
-                            className="text-5xl leading-[1.05] font-bold tracking-tight text-slate-900 xl:text-6xl dark:text-white"
+                            className="text-5xl leading-[1.05] font-bold tracking-normal text-slate-900 xl:text-6xl dark:text-white"
                         >
-                            Intra
-                            <br />
-                            Sepriansa
+                            <StaggeredText
+                                text="Intra"
+                                className="block"
+                                initialDelay={0.15}
+                            />
+                            <StaggeredText
+                                text="Sepriansa"
+                                className="block"
+                                initialDelay={0.28}
+                            />
                         </motion.h1>
                     </div>
 
-                    {/* Center visual - abstract orb with purple glow */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
-                        className="relative flex items-center justify-center"
-                    >
-                        {/* Outer purple glow */}
-                        <div className="absolute h-[350px] w-[350px] rounded-full bg-violet-500/20 blur-[80px] xl:h-[420px] xl:w-[420px] dark:bg-violet-600/25" />
-                        <div className="absolute h-[250px] w-[250px] rounded-full bg-indigo-500/15 blur-[60px] xl:h-[300px] xl:w-[300px] dark:bg-indigo-500/20" />
-
-                        {/* Abstract visual element */}
-                        <div className="relative flex h-[280px] w-[280px] items-center justify-center xl:h-[340px] xl:w-[340px]">
-                            {/* Rotating ring */}
-                            <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{
-                                    duration: 20,
-                                    repeat: Infinity,
-                                    ease: 'linear',
-                                }}
-                                className="absolute inset-0 rounded-full border border-indigo-300/20 dark:border-indigo-500/20"
-                            />
-                            <motion.div
-                                animate={{ rotate: -360 }}
-                                transition={{
-                                    duration: 25,
-                                    repeat: Infinity,
-                                    ease: 'linear',
-                                }}
-                                className="absolute inset-4 rounded-full border border-violet-300/15 dark:border-violet-500/15"
-                            />
-
-                            {/* Inner orb */}
-                            <div className="relative flex h-[200px] w-[200px] items-center justify-center rounded-full bg-gradient-to-br from-indigo-100/80 via-violet-100/60 to-purple-100/80 shadow-2xl xl:h-[240px] xl:w-[240px] dark:from-indigo-600/20 dark:via-violet-600/30 dark:to-purple-600/20 dark:shadow-violet-500/10">
-                                <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-white/90 to-slate-50/80 dark:from-[#0c0c20] dark:to-[#12122a]" />
-                                {/* Monogram */}
-                                <span className="relative bg-gradient-to-br from-indigo-500 to-violet-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent xl:text-5xl dark:from-indigo-400 dark:to-violet-400">
-                                    {'<IS/>'}
-                                </span>
-                            </div>
-
-                            {/* Floating accent dots */}
-                            <motion.div
-                                animate={{ y: [0, -10, 0] }}
-                                transition={{
-                                    duration: 3,
-                                    repeat: Infinity,
-                                    ease: 'easeInOut',
-                                }}
-                                className="absolute -top-2 right-8 h-2 w-2 rounded-full bg-indigo-400/60 dark:bg-indigo-400/40"
-                            />
-                            <motion.div
-                                animate={{ y: [0, 8, 0] }}
-                                transition={{
-                                    duration: 4,
-                                    repeat: Infinity,
-                                    ease: 'easeInOut',
-                                }}
-                                className="absolute bottom-4 -left-2 h-3 w-3 rounded-full bg-violet-400/50 dark:bg-violet-400/30"
-                            />
-                            <motion.div
-                                animate={{ y: [0, -6, 0] }}
-                                transition={{
-                                    duration: 3.5,
-                                    repeat: Infinity,
-                                    ease: 'easeInOut',
-                                }}
-                                className="absolute right-0 bottom-12 h-1.5 w-1.5 rounded-full bg-purple-400/60 dark:bg-purple-400/40"
-                            />
-                        </div>
-                    </motion.div>
-
                     {/* Right text */}
-                    <div className="max-w-xs text-right">
+                    <div className="relative z-10 w-full max-w-[30rem] text-right xl:max-w-[34rem]">
                         <motion.p
                             custom={0}
                             initial="hidden"
@@ -279,21 +314,24 @@ export function HeroSection() {
                             initial="hidden"
                             animate="visible"
                             variants={textVariants}
-                            className="text-5xl leading-[1.05] font-bold tracking-tight xl:text-6xl"
+                            className="text-5xl leading-[1.02] font-bold tracking-normal xl:text-6xl"
                         >
-                            <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">
-                                Developer
-                            </span>
+                            <StaggeredText
+                                text={copy.developer}
+                                className="whitespace-nowrap text-slate-900 dark:text-white"
+                                initialDelay={0.2}
+                                delayStep={0.025}
+                            />
                             <br />
-                            <span className="text-slate-900 dark:text-white">
-                                &amp; Builder
+                            <span className="block whitespace-nowrap text-slate-900 dark:text-white">
+                                {copy.builder}
                             </span>
                         </motion.h2>
                     </div>
                 </div>
 
                 {/* Mobile layout */}
-                <div className="flex flex-col items-center text-center lg:hidden">
+                <div className="flex w-full flex-col items-center text-center lg:hidden">
                     <motion.p
                         custom={0}
                         initial="hidden"
@@ -301,58 +339,42 @@ export function HeroSection() {
                         variants={textVariants}
                         className="mb-2 text-sm font-medium tracking-wider text-indigo-500 italic dark:text-indigo-400"
                     >
-                        Hello, I&apos;m
+                        {copy.greeting}
                     </motion.p>
                     <motion.h1
                         custom={1}
                         initial="hidden"
                         animate="visible"
                         variants={textVariants}
-                        className="text-4xl leading-[1.1] font-bold tracking-tight text-slate-900 sm:text-5xl dark:text-white"
+                        className="text-4xl leading-[1.1] font-bold tracking-normal text-slate-900 sm:text-5xl dark:text-white"
                     >
-                        Intra Sepriansa
+                        <StaggeredText
+                            text="Intra Sepriansa"
+                            initialDelay={0.12}
+                        />
                     </motion.h1>
 
-                    {/* Mobile center visual */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.4, duration: 0.8 }}
-                        className="relative my-10 flex items-center justify-center"
-                    >
-                        <div className="absolute h-[250px] w-[250px] rounded-full bg-violet-500/20 blur-[60px] dark:bg-violet-600/25" />
-                        <div className="absolute h-[180px] w-[180px] rounded-full bg-indigo-500/15 blur-[40px] dark:bg-indigo-500/20" />
-                        <div className="relative flex h-[180px] w-[180px] items-center justify-center">
-                            <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{
-                                    duration: 20,
-                                    repeat: Infinity,
-                                    ease: 'linear',
-                                }}
-                                className="absolute inset-0 rounded-full border border-indigo-300/20 dark:border-indigo-500/20"
-                            />
-                            <div className="relative flex h-[140px] w-[140px] items-center justify-center rounded-full bg-gradient-to-br from-indigo-100/80 via-violet-100/60 to-purple-100/80 shadow-xl dark:from-indigo-600/20 dark:via-violet-600/30 dark:to-purple-600/20">
-                                <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-white/90 to-slate-50/80 dark:from-[#0c0c20] dark:to-[#12122a]" />
-                                <span className="relative bg-gradient-to-br from-indigo-500 to-violet-500 bg-clip-text text-3xl font-bold tracking-tight text-transparent dark:from-indigo-400 dark:to-violet-400">
-                                    {'<IS/>'}
-                                </span>
-                            </div>
-                        </div>
-                    </motion.div>
+                    <div className="my-8 sm:my-10">
+                        <PortraitVisual alt={copy.portraitAlt} compact />
+                    </div>
 
                     <motion.h2
                         custom={2}
                         initial="hidden"
                         animate="visible"
                         variants={textVariants}
-                        className="text-3xl leading-[1.1] font-bold tracking-tight sm:text-4xl"
+                        className="mx-auto max-w-[22rem] text-3xl leading-[1.1] font-bold tracking-normal sm:text-4xl"
                     >
-                        <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">
-                            Developer
+                        <span>
+                            <StaggeredText
+                                text={copy.developer}
+                                className="whitespace-nowrap text-slate-900 dark:text-white"
+                                initialDelay={0.2}
+                                delayStep={0.025}
+                            />
                         </span>{' '}
-                        <span className="text-slate-900 dark:text-white">
-                            &amp; Builder
+                        <span className="whitespace-nowrap text-slate-900 dark:text-white">
+                            {copy.builder}
                         </span>
                     </motion.h2>
 
@@ -363,8 +385,7 @@ export function HeroSection() {
                         variants={textVariants}
                         className="mt-4 max-w-sm text-sm leading-relaxed text-slate-500 dark:text-slate-400"
                     >
-                        Building modern web applications with clean UI,
-                        scalable systems, and interactive digital experiences.
+                        {copy.mobileDescription}
                     </motion.p>
 
                     {/* Mobile social icons */}
@@ -399,16 +420,19 @@ export function HeroSection() {
                 href="#"
                 className="absolute right-8 bottom-8 z-20 hidden items-center gap-2 text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase transition-colors hover:text-indigo-500 lg:flex dark:text-slate-500 dark:hover:text-indigo-400"
             >
-                Resume
+                {copy.resume}
                 <Download className="h-3.5 w-3.5" />
             </motion.a>
 
             {/* Scroll indicator */}
-            <motion.div
+            <motion.button
+                type="button"
+                aria-label={copy.ariaScroll}
+                onClick={scrollToAbout}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5 }}
-                className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2"
+                className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 rounded-full p-3 transition-transform outline-none hover:scale-110 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             >
                 <motion.div
                     animate={{ y: [0, 8, 0] }}
@@ -418,9 +442,9 @@ export function HeroSection() {
                         ease: 'easeInOut',
                     }}
                 >
-                    <ArrowDown className="h-5 w-5 text-slate-400 dark:text-slate-500" />
+                    <ArrowDown className="h-5 w-5 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.65)]" />
                 </motion.div>
-            </motion.div>
+            </motion.button>
         </section>
     );
 }

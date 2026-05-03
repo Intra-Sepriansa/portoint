@@ -2,19 +2,30 @@ import { router } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Copy, FileText, Hash, Search } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { commandItems } from '@/data/navigation';
+import type {
+    PortfolioCommandItem,
+    PortfolioLanguage,
+} from '@/data/portfolio-language';
+import { portfolioCopy } from '@/data/portfolio-language';
 import { email } from '@/data/socials';
 import { cn } from '@/lib/utils';
 
 type CommandPaletteProps = {
+    language: PortfolioLanguage;
     open: boolean;
     onClose: () => void;
 };
 
-export function CommandPalette({ open, onClose }: CommandPaletteProps) {
+export function CommandPalette({
+    language,
+    open,
+    onClose,
+}: CommandPaletteProps) {
     const [query, setQuery] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
     const inputRef = useRef<HTMLInputElement>(null);
+    const copy = portfolioCopy[language];
+    const commandItems = copy.commands;
 
     const filtered = commandItems.filter((item) =>
         item.label.toLowerCase().includes(query.toLowerCase()),
@@ -42,7 +53,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
     }, [open]);
 
     const executeItem = useCallback(
-        (item: (typeof commandItems)[number]) => {
+        (item: PortfolioCommandItem) => {
             onClose();
 
             if (item.type === 'navigation') {
@@ -92,7 +103,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [open, onClose, filtered, selectedIndex, executeItem]);
 
-    function getIcon(item: (typeof commandItems)[number]) {
+    function getIcon(item: PortfolioCommandItem) {
         if (item.type === 'navigation') {
             return Hash;
         }
@@ -135,7 +146,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                                     setQuery(e.target.value);
                                     setSelectedIndex(0);
                                 }}
-                                placeholder="Type a command or search..."
+                                placeholder={copy.command.placeholder}
                                 className="flex-1 bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-slate-500"
                             />
                             <kbd className="rounded border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] text-slate-400 dark:border-white/10 dark:bg-white/[0.05] dark:text-slate-500">
@@ -146,7 +157,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                         <div className="max-h-[300px] overflow-y-auto p-2">
                             {filtered.length === 0 && (
                                 <p className="px-3 py-6 text-center text-sm text-slate-500">
-                                    No results found.
+                                    {copy.command.noResults}
                                 </p>
                             )}
                             {filtered.map((item, i) => {

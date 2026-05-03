@@ -1,17 +1,49 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { CommandPalette } from '@/components/portfolio/command-palette';
 import { Footer } from '@/components/portfolio/footer';
 import { Navbar } from '@/components/portfolio/navbar';
-import { GlowCard } from '@/components/portfolio/ui/glow-card';
+import { ProjectMonitorCard } from '@/components/portfolio/project-monitor-card';
+import { PortfolioLetterSwapOverlay } from '@/components/portfolio/ui/portfolio-letter-swap-overlay';
 import { ScrollProgress } from '@/components/portfolio/ui/scroll-progress';
-import { TechBadge } from '@/components/portfolio/ui/tech-badge';
-import { projects } from '@/data/projects';
+import { localizeProjects, projects } from '@/data/projects';
+import type { PortfolioLanguage } from '@/data/portfolio-language';
+import { usePortfolioLanguage } from '@/hooks/use-portfolio-language';
+
+const pageCopy = {
+    en: {
+        description:
+            'Explore Intra Sepriansa projects: modern web applications, dashboards, EdTech platforms, and AI-powered systems.',
+        eyebrow: 'Portfolio',
+        intro: 'A collection of web applications, platforms, and systems I designed and built.',
+        title: 'Projects - Intra Sepriansa',
+        heading: 'All Projects',
+    },
+    id: {
+        description:
+            'Jelajahi proyek Intra Sepriansa: aplikasi web modern, dasbor, platform EdTech, dan sistem berbasis AI.',
+        eyebrow: 'Portofolio',
+        intro: 'Kumpulan aplikasi web, platform, dan sistem yang saya rancang serta bangun.',
+        title: 'Proyek - Intra Sepriansa',
+        heading: 'Semua Proyek',
+    },
+} satisfies Record<
+    PortfolioLanguage,
+    {
+        description: string;
+        eyebrow: string;
+        heading: string;
+        intro: string;
+        title: string;
+    }
+>;
 
 export default function ProjectsIndex() {
     const [commandOpen, setCommandOpen] = useState(false);
+    const [language, setLanguage, isLanguageChanging] = usePortfolioLanguage();
+    const copy = pageCopy[language];
+    const localizedProjects = localizeProjects(projects, language);
 
     const openCommand = useCallback(() => setCommandOpen(true), []);
     const closeCommand = useCallback(() => setCommandOpen(false), []);
@@ -31,11 +63,8 @@ export default function ProjectsIndex() {
 
     return (
         <>
-            <Head title="Projects — Intra Sepriansa">
-                <meta
-                    name="description"
-                    content="Explore projects by Intra Sepriansa — modern web applications, dashboards, EdTech platforms, and AI-powered systems."
-                />
+            <Head title={copy.title}>
+                <meta name="description" content={copy.description} />
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link
                     href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700,800"
@@ -44,12 +73,26 @@ export default function ProjectsIndex() {
             </Head>
 
             <div
+                data-portfolio-language-shell
                 className="min-h-screen bg-white dark:bg-[#060612]"
                 style={{ fontFamily: "'Inter', sans-serif" }}
             >
                 <ScrollProgress />
-                <Navbar onCommandPalette={openCommand} />
-                <CommandPalette open={commandOpen} onClose={closeCommand} />
+                <PortfolioLetterSwapOverlay
+                    isChanging={isLanguageChanging}
+                    language={language}
+                />
+                <Navbar
+                    language={language}
+                    languageChanging={isLanguageChanging}
+                    onCommandPalette={openCommand}
+                    onLanguageChange={setLanguage}
+                />
+                <CommandPalette
+                    language={language}
+                    open={commandOpen}
+                    onClose={closeCommand}
+                />
 
                 <main className="pt-32 pb-24">
                     <div className="mx-auto max-w-7xl px-6">
@@ -59,69 +102,36 @@ export default function ProjectsIndex() {
                             className="mb-16 text-center"
                         >
                             <span className="mb-3 inline-block text-xs font-medium tracking-widest text-indigo-600 uppercase dark:text-indigo-400">
-                                Portfolio
+                                {copy.eyebrow}
                             </span>
                             <h1 className="text-4xl font-bold tracking-tight text-slate-900 md:text-5xl dark:text-white">
-                                All Projects
+                                {copy.heading}
                             </h1>
                             <p className="mx-auto mt-4 max-w-2xl text-base text-slate-500 dark:text-slate-400">
-                                A collection of web applications, platforms, and
-                                systems I&apos;ve designed and built.
+                                {copy.intro}
                             </p>
                         </motion.div>
 
                         <div className="grid gap-8 md:grid-cols-2">
-                            {projects.map((project, i) => (
+                            {localizedProjects.map((project, i) => (
                                 <motion.div
                                     key={project.id}
                                     initial={{ opacity: 0, y: 30 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.1 }}
+                                    className="h-full"
                                 >
-                                    <Link href={`/projects/${project.slug}`}>
-                                        <GlowCard className="h-full cursor-pointer">
-                                            <span className="text-xs font-medium tracking-wide text-indigo-600 uppercase dark:text-indigo-400">
-                                                {project.category}
-                                            </span>
-                                            <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
-                                                {project.name}
-                                            </h2>
-                                            <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-                                                {project.shortDescription}
-                                            </p>
-
-                                            <div className="mt-4 flex flex-wrap gap-1.5">
-                                                {project.techStack
-                                                    .slice(0, 5)
-                                                    .map((tech) => (
-                                                        <TechBadge
-                                                            key={tech}
-                                                            name={tech}
-                                                        />
-                                                    ))}
-                                                {project.techStack.length >
-                                                    5 && (
-                                                    <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-500 dark:border-white/10 dark:bg-white/[0.05]">
-                                                        +
-                                                        {project.techStack
-                                                            .length - 5}
-                                                    </span>
-                                                )}
-                                            </div>
-
-                                            <div className="mt-6 flex items-center gap-2 text-sm text-indigo-600 transition-colors group-hover:text-indigo-500 dark:text-indigo-400 dark:group-hover:text-indigo-300">
-                                                View Case Study
-                                                <ArrowRight className="h-4 w-4" />
-                                            </div>
-                                        </GlowCard>
-                                    </Link>
+                                    <ProjectMonitorCard
+                                        language={language}
+                                        project={project}
+                                    />
                                 </motion.div>
                             ))}
                         </div>
                     </div>
                 </main>
 
-                <Footer />
+                <Footer language={language} />
             </div>
         </>
     );

@@ -4,52 +4,51 @@ export type NavItem = {
 };
 
 export const navItems: NavItem[] = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Services', href: '#services' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Beranda', href: '#home' },
+    { label: 'Tentang', href: '#about' },
+    { label: 'Keahlian', href: '#skills' },
+    { label: 'Proyek', href: '#projects' },
+    { label: 'Kontak', href: '#contact' },
 ];
 
 export const commandItems = [
-    { label: 'Go to Home', action: '#home', type: 'navigation' as const },
-    { label: 'Go to About', action: '#about', type: 'navigation' as const },
-    { label: 'Go to Skills', action: '#skills', type: 'navigation' as const },
+    { label: 'Ke Beranda', action: '#home', type: 'navigation' as const },
+    { label: 'Ke Tentang', action: '#about', type: 'navigation' as const },
+    { label: 'Ke Keahlian', action: '#skills', type: 'navigation' as const },
     {
-        label: 'Go to Projects',
+        label: 'Ke Proyek',
         action: '#projects',
         type: 'navigation' as const,
     },
     {
-        label: 'Go to Services',
-        action: '#services',
-        type: 'navigation' as const,
-    },
-    {
-        label: 'Go to Contact',
+        label: 'Ke Kontak',
         action: '#contact',
         type: 'navigation' as const,
     },
     {
-        label: 'Open KAWA AI',
+        label: 'Buka KAWA AI',
         action: '/projects/kawa-ai',
         type: 'project' as const,
     },
     {
-        label: 'Open SMANTEN Portal',
+        label: 'Buka SMANTEN Portal',
         action: '/projects/smanten-portal',
         type: 'project' as const,
     },
     {
-        label: 'Open LinguaPath',
+        label: 'Buka LinguaPath',
         action: '/projects/linguapath',
         type: 'project' as const,
     },
     {
-        label: 'Open MajorMind',
+        label: 'Buka Solvara Studio',
+        action: '/projects/solvara-studio',
+        type: 'project' as const,
+    },
+    {
+        label: 'Buka MajorMind',
         action: '/projects/majormind',
         type: 'project' as const,
     },
-    { label: 'Copy Email', action: 'copy-email', type: 'action' as const },
+    { label: 'Salin Email', action: 'copy-email', type: 'action' as const },
 ];
