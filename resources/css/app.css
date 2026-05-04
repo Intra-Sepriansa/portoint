@@ -141,3 +141,122 @@
         @apply bg-background text-foreground;
     }
 }
+
+@keyframes project-screen-pan {
+    0%,
+    100% {
+        transform: translateY(0) scale(1.03);
+    }
+
+    48%,
+    58% {
+        transform: translateY(-10%) scale(1.03);
+    }
+}
+
+html[data-portfolio-language-transition] [data-portfolio-letter-swap-target] {
+    color: transparent !important;
+    text-shadow: none !important;
+}
+
+html[data-portfolio-language-transition]
+    [data-portfolio-letter-swap-target]::placeholder {
+    color: transparent !important;
+}
+
+.portfolio-letter-swap-item {
+    position: fixed;
+    display: block;
+    overflow: visible;
+    contain: layout paint;
+    pointer-events: none;
+    transform-style: preserve-3d;
+    perspective: 900px;
+}
+
+.portfolio-letter-swap-word {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.portfolio-letter-swap-space {
+    display: inline;
+}
+
+.portfolio-letter-swap-char {
+    display: inline-block;
+    transform-origin: 50% 52%;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform, opacity, filter;
+}
+
+.portfolio-letter-swap-item[data-portfolio-letter-swap-phase='out']
+    .portfolio-letter-swap-char {
+    animation: portfolio-letter-swap-out 520ms cubic-bezier(0.22, 1, 0.36, 1)
+        both;
+    animation-delay: var(--swap-delay);
+}
+
+.portfolio-letter-swap-item[data-portfolio-letter-swap-phase='in']
+    .portfolio-letter-swap-char {
+    animation: portfolio-letter-swap-in 580ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--swap-delay);
+}
+
+@keyframes portfolio-letter-swap-out {
+    0% {
+        opacity: 1;
+        filter: blur(0);
+        transform: perspective(900px) translate3d(0, 0, 0) rotateX(0deg)
+            rotateY(0deg) rotateZ(0deg) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        filter: blur(5px);
+        transform: perspective(900px) translate3d(0, var(--swap-y), 0)
+            rotateX(var(--swap-rotate-x)) rotateY(var(--swap-rotate-y))
+            rotateZ(var(--swap-rotate-z)) scale(0.86);
+    }
+}
+
+@keyframes portfolio-letter-swap-in {
+    0% {
+        opacity: 0;
+        filter: blur(5px);
+        transform: perspective(900px)
+            translate3d(0, calc(var(--swap-y) * -1), 0)
+            rotateX(calc(var(--swap-rotate-x) * -1))
+            rotateY(calc(var(--swap-rotate-y) * -1))
+            rotateZ(calc(var(--swap-rotate-z) * -1)) scale(1.08);
+    }
+
+    58% {
+        opacity: 1;
+        filter: blur(0.75px);
+        transform: perspective(900px) translate3d(0, 0, 0) rotateX(-6deg)
+            rotateY(4deg) rotateZ(0deg) scale(1.02);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: perspective(900px) translate3d(0, 0, 0) rotateX(0deg)
+            rotateY(0deg) rotateZ(0deg) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html[data-portfolio-language-transition]
+        [data-portfolio-letter-swap-target] {
+        color: inherit !important;
+    }
+
+    .portfolio-letter-swap-char {
+        animation-duration: 1ms !important;
+        animation-delay: 0ms !important;
+        filter: none !important;
+        transform: none !important;
+    }
+}
