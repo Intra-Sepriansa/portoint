@@ -2,8 +2,10 @@
 
 use Inertia\Testing\AssertableInertia as Assert;
 
+use function Pest\Laravel\get;
+
 test('home page renders the portfolio landing page', function () {
-    $response = $this->get(route('home'));
+    $response = get(route('home'));
 
     $response
         ->assertOk()
@@ -12,7 +14,7 @@ test('home page renders the portfolio landing page', function () {
 });
 
 test('contact page renders the contact screen', function () {
-    $response = $this->get(route('contact'));
+    $response = get(route('contact'));
 
     $response
         ->assertOk()
@@ -20,8 +22,17 @@ test('contact page renders the contact screen', function () {
             ->component('contact'));
 });
 
+test('cv page renders the simple cv screen', function () {
+    $response = get(route('cv'));
+
+    $response
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('cv'));
+});
+
 test('projects page renders the portfolio project gallery', function () {
-    $response = $this->get(route('projects.index'));
+    $response = get(route('projects.index'));
 
     $response
         ->assertOk()
@@ -35,6 +46,91 @@ test('portfolio hero reveal assets are available', function () {
     expect(is_file(public_path('person-light.png')))->toBeTrue();
     expect(is_file(public_path('reveal.png')))->toBeTrue();
     expect(is_file(public_path('reveal-dark.png')))->toBeTrue();
+});
+
+test('portfolio browser tab uses the cropped logo favicon', function () {
+    $shell = file_get_contents(resource_path('views/app.blade.php'));
+
+    expect(is_file(public_path('image.png')))->toBeTrue();
+    expect(is_file(public_path('intra-favicon.png')))->toBeTrue();
+    expect(is_file(public_path('intra-apple-touch-icon.png')))->toBeTrue();
+    expect(getimagesize(public_path('image.png')))->toMatchArray([399, 564]);
+    expect(getimagesize(public_path('intra-favicon.png')))->toMatchArray([512, 512]);
+    expect(getimagesize(public_path('intra-apple-touch-icon.png')))->toMatchArray([180, 180]);
+
+    expect($shell)
+        ->toContain('<link rel="icon" href="/intra-favicon.png?v=20260503" type="image/png">')
+        ->toContain('<link rel="apple-touch-icon" href="/intra-apple-touch-icon.png?v=20260503">')
+        ->not->toContain('/intra-favicon.ico')
+        ->not->toContain('/favicon.ico"')
+        ->not->toContain('/favicon.png"')
+        ->not->toContain('/favicon.svg');
+});
+
+test('portfolio uses the current instagram profile link', function () {
+    $socials = file_get_contents(resource_path('js/data/socials.ts'));
+    $hero = file_get_contents(resource_path('js/components/portfolio/sections/hero-section.tsx'));
+
+    expect($socials)
+        ->toContain('https://www.instagram.com/intravert__')
+        ->toContain('@intravert__')
+        ->not->toContain('https://instagram.com/intrasepriansa')
+        ->not->toContain('@intrasepriansa');
+
+    expect($hero)
+        ->toContain('https://www.instagram.com/intravert__')
+        ->not->toContain('https://instagram.com/intrasepriansa');
+});
+
+test('portfolio cv downloads are available publicly', function () {
+    $downloads = [
+        'downloads/Intra_Sepriansa_CV_ID.pdf',
+        'downloads/Intra_Sepriansa_CV_EN.pdf',
+        'downloads/Intra_Sepriansa_CV_ATS_ID.pdf',
+        'downloads/Intra_Sepriansa_CV_ATS_EN.pdf',
+        'downloads/Intra_Sepriansa_CV_ATS_ID.docx',
+        'downloads/Intra_Sepriansa_CV_ATS_EN.docx',
+    ];
+
+    foreach ($downloads as $download) {
+        expect(is_file(public_path($download)))->toBeTrue();
+        expect(filesize(public_path($download)))->toBeGreaterThan(30_000);
+    }
+});
+
+test('portfolio cv shortcuts open the cv page', function () {
+    $hero = file_get_contents(resource_path('js/components/portfolio/sections/hero-section.tsx'));
+    $commands = file_get_contents(resource_path('js/data/portfolio-language.ts'));
+    $navbar = file_get_contents(resource_path('js/components/portfolio/navbar.tsx'));
+
+    expect($hero)
+        ->toContain("import { cv } from '@/routes'")
+        ->toContain('href={cv.url()}');
+
+    expect($commands)
+        ->toContain("action: '/cv'")
+        ->toContain("type: 'page'");
+
+    expect($navbar)
+        ->toContain("import { home } from '@/routes'")
+        ->toContain('router.visit(`${home.url()}${href}`)');
+});
+
+test('portfolio cv page uses the animated folder component', function () {
+    $folder = file_get_contents(resource_path('js/components/portfolio/ui/folder.tsx'));
+    $cvPage = file_get_contents(resource_path('js/pages/cv.tsx'));
+
+    expect($folder)
+        ->toContain('export default function Folder')
+        ->toContain('aria-pressed={open}')
+        ->toContain('group-hover:[transform:skew(15deg)_scaleY(0.6)]')
+        ->toContain('translate(-120%, -70%) rotate(-15deg)');
+
+    expect($cvPage)
+        ->toContain("import Folder from '@/components/portfolio/ui/folder'")
+        ->toContain('color="#4F46E5"')
+        ->toContain('items={folderItems}')
+        ->toContain('size={1.22}');
 });
 
 test('portfolio tech stack fallback logo assets are available', function () {
@@ -275,18 +371,32 @@ test('contact section supports bilingual copy and paper plane send animation', f
 
 test('portfolio language toggle is rendered beside the theme toggle', function () {
     $navbar = file_get_contents(resource_path('js/components/portfolio/navbar.tsx'));
+    $themeToggle = file_get_contents(resource_path('js/components/portfolio/ui/theme-toggle.tsx'));
     $home = file_get_contents(resource_path('js/pages/home.tsx'));
     $contact = file_get_contents(resource_path('js/pages/contact.tsx'));
 
     expect($navbar)
+        ->toContain('navbarUtilityButtonClassName')
         ->toContain('data-portfolio-language-toggle')
         ->toContain('nextLanguage.toUpperCase()')
         ->toContain('<Languages className="h-4 w-4" />')
+        ->toContain('<Command className="h-4 w-4" />')
         ->toContain('<ThemeToggle />')
         ->toContain('data-portfolio-language-changing')
         ->toContain('aria-busy={isChanging}')
         ->toContain('disabled={isChanging}')
-        ->toContain('rounded-xl border border-slate-200 bg-slate-100');
+        ->toContain('h-10 w-14')
+        ->toContain('sm:w-16')
+        ->toContain('rounded-full border border-slate-200 bg-slate-100')
+        ->toContain('gap-2 sm:gap-3')
+        ->toContain('inline-flex h-10 w-10')
+        ->toContain("'hidden text-xs md:inline-flex'")
+        ->toContain('hidden h-10 items-center rounded-full bg-indigo-600');
+
+    expect($themeToggle)
+        ->toContain('inline-flex h-10 w-14')
+        ->toContain('sm:w-16')
+        ->toContain('rounded-full border border-slate-200 bg-slate-100');
 
     expect($home)
         ->toContain('usePortfolioLanguage()')
@@ -347,10 +457,20 @@ test('portfolio language changes animate all portfolio text smoothly', function 
         ->toContain('data-portfolio-letter-swap-overlay');
 
     expect($hero)
+        ->toContain('h-[86svh]')
+        ->toContain('max-h-[800px]')
+        ->toContain('origin-bottom translate-y-[3.5%]')
+        ->toContain('imageFrameClassName')
+        ->toContain('min-h-svh')
+        ->toContain('items-start px-6 pt-28 pb-10')
+        ->toContain('lg:items-center lg:px-20 lg:py-0')
+        ->toContain('my-6 sm:my-8')
         ->toContain('max-w-[30rem]')
         ->toContain('xl:max-w-[34rem]')
         ->toContain('whitespace-nowrap text-slate-900 dark:text-white')
         ->toContain('tracking-normal')
+        ->not->toContain('h-[86vh]')
+        ->not->toContain('min-h-screen overflow-hidden bg-white')
         ->not->toContain('max-w-xs text-right');
 
     expect($home)

@@ -168,4 +168,9 @@ class PortfolioController extends Controller
     {
         return Inertia::render('contact');
     }
+
+    public function cv(): Response
+    {
+        return Inertia::render('cv');
+    }
 }

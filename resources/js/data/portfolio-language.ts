@@ -8,7 +8,7 @@ export type PortfolioNavItem = {
 export type PortfolioCommandItem = {
     action: string;
     label: string;
-    type: 'action' | 'navigation' | 'project';
+    type: 'action' | 'navigation' | 'page' | 'project';
 };
 
 export const defaultPortfolioLanguage: PortfolioLanguage = 'id';
@@ -72,6 +72,7 @@ export const portfolioCopy = {
                 action: '/projects/majormind',
                 type: 'project',
             },
+            { label: 'Open CV', action: '/cv', type: 'page' },
             { label: 'Copy Email', action: 'copy-email', type: 'action' },
         ],
     },
@@ -133,6 +134,7 @@ export const portfolioCopy = {
                 action: '/projects/majormind',
                 type: 'project',
             },
+            { label: 'Buka CV', action: '/cv', type: 'page' },
             { label: 'Salin Email', action: 'copy-email', type: 'action' },
         ],
     },

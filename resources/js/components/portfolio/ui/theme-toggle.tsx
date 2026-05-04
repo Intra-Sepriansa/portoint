@@ -9,7 +9,7 @@ export function ThemeToggle() {
         <button
             type="button"
             onClick={() => updateAppearance(nextAppearance)}
-            className="relative z-[70] cursor-pointer rounded-lg border border-slate-200 bg-slate-100 p-2 text-slate-600 transition-[color,background-color,border-color,transform] hover:bg-slate-200 hover:text-slate-900 active:scale-90 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
+            className="relative z-[70] inline-flex h-10 w-14 shrink-0 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-slate-600 transition-[color,background-color,border-color,transform] hover:bg-slate-200 hover:text-slate-900 active:scale-95 sm:w-16 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
             aria-label={
                 resolvedAppearance === 'dark'
                     ? 'Ganti ke mode terang'

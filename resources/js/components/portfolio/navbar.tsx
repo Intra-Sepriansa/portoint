@@ -1,3 +1,4 @@
+import { router } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Command, Languages, Menu, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -5,6 +6,7 @@ import { ThemeToggle } from '@/components/portfolio/ui/theme-toggle';
 import type { PortfolioLanguage } from '@/data/portfolio-language';
 import { portfolioCopy } from '@/data/portfolio-language';
 import { cn } from '@/lib/utils';
+import { home } from '@/routes';
 
 type LanguageToggleProps = {
     isChanging: boolean;
@@ -18,6 +20,23 @@ type NavbarProps = {
     onCommandPalette: () => void;
     onLanguageChange: (language: PortfolioLanguage) => void;
 };
+
+const navbarUtilityButtonClassName =
+    'h-10 w-14 shrink-0 items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-slate-100 px-2 text-sm font-bold text-slate-600 transition-[color,background-color,border-color,transform,opacity] hover:bg-slate-200 hover:text-slate-900 active:scale-95 disabled:cursor-wait disabled:opacity-80 sm:w-16 sm:gap-2 sm:px-3 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white';
+
+function getInitialActiveSection() {
+    if (typeof window === 'undefined') {
+        return 'home';
+    }
+
+    const currentPath = window.location.pathname.replace(/^\/+/, '');
+
+    if (currentPath.startsWith('projects')) {
+        return 'projects';
+    }
+
+    return currentPath === '' ? 'home' : currentPath;
+}
 
 function PortfolioLanguageToggle({
     isChanging,
@@ -44,7 +63,10 @@ function PortfolioLanguageToggle({
                     ? 'Switch to English'
                     : 'Ganti ke Bahasa Indonesia'
             }
-            className="relative z-[70] inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-3 text-sm font-bold text-slate-600 transition-[color,background-color,border-color,transform,opacity] hover:bg-slate-200 hover:text-slate-900 active:scale-95 disabled:cursor-wait disabled:opacity-80 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
+            className={cn(
+                'relative z-[70] inline-flex',
+                navbarUtilityButtonClassName,
+            )}
         >
             <Languages className="h-4 w-4" />
             <span>{nextLanguage.toUpperCase()}</span>
@@ -59,7 +81,7 @@ export function Navbar({
     onLanguageChange,
 }: NavbarProps) {
     const [scrolled, setScrolled] = useState(false);
-    const [activeSection, setActiveSection] = useState('home');
+    const [activeSection, setActiveSection] = useState(getInitialActiveSection);
     const [mobileOpen, setMobileOpen] = useState(false);
     const copy = portfolioCopy[language];
 
@@ -87,14 +109,26 @@ export function Navbar({
         return () => window.removeEventListener('scroll', handleScroll);
     }, [copy.nav]);
 
-    const scrollTo = useCallback((href: string) => {
+    const navigateTo = useCallback((href: string) => {
+        if (!href.startsWith('#')) {
+            router.visit(href);
+            setMobileOpen(false);
+
+            return;
+        }
+
         const id = href.replace('#', '');
         const el = document.getElementById(id);
 
         if (el) {
             el.scrollIntoView({ behavior: 'smooth' });
+            setActiveSection(id);
+            setMobileOpen(false);
+
+            return;
         }
 
+        router.visit(`${home.url()}${href}`);
         setMobileOpen(false);
     }, []);
 
@@ -111,12 +145,12 @@ export function Navbar({
                         : 'bg-transparent',
                 )}
             >
-                <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+                <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-4 sm:px-6">
                     <a
-                        href="#home"
+                        href={`${home.url()}#home`}
                         onClick={(e) => {
                             e.preventDefault();
-                            scrollTo('#home');
+                            navigateTo('#home');
                         }}
                         className="text-lg font-bold tracking-tight text-slate-900 dark:text-white"
                     >
@@ -132,7 +166,7 @@ export function Navbar({
                         {copy.nav.map((item) => (
                             <button
                                 key={item.href}
-                                onClick={() => scrollTo(item.href)}
+                                onClick={() => navigateTo(item.href)}
                                 className={cn(
                                     'rounded-full px-4 py-2 text-base font-semibold transition-colors',
                                     activeSection === item.href.replace('#', '')
@@ -145,12 +179,16 @@ export function Navbar({
                         ))}
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3">
                         <button
+                            type="button"
                             onClick={onCommandPalette}
-                            className="hidden items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-500 transition-colors hover:border-slate-300 hover:text-slate-900 md:flex dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:border-white/20 dark:hover:text-white"
+                            className={cn(
+                                'hidden text-xs md:inline-flex',
+                                navbarUtilityButtonClassName,
+                            )}
                         >
-                            <Command className="h-3 w-3" />
+                            <Command className="h-4 w-4" />
                             <span>⌘K</span>
                         </button>
 
@@ -163,19 +201,25 @@ export function Navbar({
                         <ThemeToggle />
 
                         <a
-                            href="#contact"
+                            href={`${home.url()}#contact`}
                             onClick={(e) => {
                                 e.preventDefault();
-                                scrollTo('#contact');
+                                navigateTo('#contact');
                             }}
-                            className="hidden rounded-full bg-indigo-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500 md:block"
+                            className="hidden h-10 items-center rounded-full bg-indigo-600 px-5 text-sm font-medium text-white transition-colors hover:bg-indigo-500 md:inline-flex"
                         >
                             <span>{copy.contactCta}</span>
                         </a>
 
                         <button
+                            type="button"
                             onClick={() => setMobileOpen(!mobileOpen)}
-                            className="rounded-lg p-2 text-slate-500 hover:text-slate-900 md:hidden dark:text-slate-400 dark:hover:text-white"
+                            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-900 md:hidden dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
+                            aria-label={
+                                mobileOpen
+                                    ? 'Close navigation menu'
+                                    : 'Open navigation menu'
+                            }
                         >
                             {mobileOpen ? (
                                 <X className="h-5 w-5" />
@@ -199,7 +243,7 @@ export function Navbar({
                             {copy.nav.map((item) => (
                                 <button
                                     key={item.href}
-                                    onClick={() => scrollTo(item.href)}
+                                    onClick={() => navigateTo(item.href)}
                                     className={cn(
                                         'rounded-lg px-4 py-3 text-left text-sm transition-colors',
                                         activeSection ===
@@ -212,10 +256,10 @@ export function Navbar({
                                 </button>
                             ))}
                             <a
-                                href="#contact"
+                                href={`${home.url()}#contact`}
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    scrollTo('#contact');
+                                    navigateTo('#contact');
                                 }}
                                 className="mt-2 rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-medium text-white"
                             >

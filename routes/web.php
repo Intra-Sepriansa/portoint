@@ -9,6 +9,7 @@ Route::get('/', [PortfolioController::class, 'home'])->name('home');
 Route::get('/projects', [PortfolioController::class, 'projects'])->name('projects.index');
 Route::get('/projects/{slug}', [PortfolioController::class, 'projectShow'])->name('projects.show');
 Route::get('/contact', [PortfolioController::class, 'contact'])->name('contact');
+Route::get('/cv', [PortfolioController::class, 'cv'])->name('cv');
 Route::post('/contact-messages', ContactMessageController::class)
     ->middleware('throttle:3,1')
     ->name('contact-messages.store');

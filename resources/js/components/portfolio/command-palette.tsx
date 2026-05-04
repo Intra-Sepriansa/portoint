@@ -9,6 +9,7 @@ import type {
 import { portfolioCopy } from '@/data/portfolio-language';
 import { email } from '@/data/socials';
 import { cn } from '@/lib/utils';
+import { home } from '@/routes';
 
 type CommandPaletteProps = {
     language: PortfolioLanguage;
@@ -62,8 +63,10 @@ export function CommandPalette({
 
                 if (el) {
                     el.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    router.visit(`${home.url()}${item.action}`);
                 }
-            } else if (item.type === 'project') {
+            } else if (item.type === 'project' || item.type === 'page') {
                 router.visit(item.action);
             } else if (item.action === 'copy-email') {
                 navigator.clipboard.writeText(email);
@@ -108,7 +111,7 @@ export function CommandPalette({
             return Hash;
         }
 
-        if (item.type === 'project') {
+        if (item.type === 'project' || item.type === 'page') {
             return FileText;
         }
 

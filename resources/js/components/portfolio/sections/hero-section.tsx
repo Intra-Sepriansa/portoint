@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { ArrowDown, Download, Github, Instagram, Linkedin } from 'lucide-react';
 import { useCallback, useEffect, useRef } from 'react';
@@ -6,6 +7,7 @@ import { ShaderReveal } from '@/components/portfolio/ui/shader-reveal';
 import { StaggeredText } from '@/components/portfolio/ui/staggered-text';
 import type { PortfolioLanguage } from '@/data/portfolio-language';
 import { useAppearance } from '@/hooks/use-appearance';
+import { cv } from '@/routes';
 
 function AnimatedBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -132,7 +134,7 @@ const socialLinks = [
     },
     {
         icon: Instagram,
-        href: 'https://instagram.com/intrasepriansa',
+        href: 'https://www.instagram.com/intravert__',
         label: 'Instagram',
     },
 ];
@@ -146,37 +148,49 @@ function PortraitVisual({ alt, compact = false }: PortraitVisualProps) {
     const { resolvedAppearance } = useAppearance();
     const imageClassName = compact
         ? 'h-[340px] max-h-[52vh] sm:h-[410px]'
-        : 'h-[86vh] max-h-[760px] min-h-[560px] xl:h-[88vh] xl:max-h-[840px]';
+        : 'h-[86svh] max-h-[800px] min-h-[560px] xl:h-[88svh] xl:max-h-[880px]';
+    const bottomAlignmentClassName = compact
+        ? ''
+        : 'origin-bottom translate-y-[3.5%]';
+    const imageFrameClassName = [
+        imageClassName,
+        bottomAlignmentClassName,
+        'aspect-[2/3] w-auto max-w-none select-none',
+    ]
+        .filter(Boolean)
+        .join(' ');
 
     return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 24 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.8, ease: 'easeOut' }}
-            className={`${imageClassName} aspect-[2/3] w-auto max-w-none select-none`}
-        >
-            <ShaderReveal
-                frontImage={
-                    resolvedAppearance === 'dark'
-                        ? '/person-light.png'
-                        : '/person.png'
-                }
-                backImage={
-                    resolvedAppearance === 'dark'
-                        ? '/reveal.png'
-                        : '/reveal-dark.png'
-                }
-                alt={alt}
-                className="h-full w-full"
-                mouseForce={50}
-                cursorSize={140}
-                resolution={0.5}
-                revealStrength={0.75}
-                revealSoftness={1}
-                backImageTranslateY={-0.018}
-                autoDemo={false}
-            />
-        </motion.div>
+        <div className={imageFrameClassName}>
+            <motion.div
+                initial={{ opacity: 0, scale: 0.92, y: 24 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.8, ease: 'easeOut' }}
+                className="h-full w-full origin-bottom"
+            >
+                <ShaderReveal
+                    frontImage={
+                        resolvedAppearance === 'dark'
+                            ? '/person-light.png'
+                            : '/person.png'
+                    }
+                    backImage={
+                        resolvedAppearance === 'dark'
+                            ? '/reveal.png'
+                            : '/reveal-dark.png'
+                    }
+                    alt={alt}
+                    className="h-full w-full"
+                    mouseForce={50}
+                    cursorSize={140}
+                    resolution={0.5}
+                    revealStrength={0.75}
+                    revealSoftness={1}
+                    backImageTranslateY={-0.018}
+                    autoDemo={false}
+                />
+            </motion.div>
+        </div>
     );
 }
 
@@ -233,7 +247,7 @@ export function HeroSection({ language }: HeroSectionProps) {
     return (
         <section
             id="home"
-            className="relative flex min-h-screen overflow-hidden bg-white dark:bg-[#060612]"
+            className="relative flex min-h-svh overflow-hidden bg-white dark:bg-[#060612]"
         >
             <AnimatedBackground />
             <RisingLines className="z-0 opacity-45 dark:opacity-55" />
@@ -260,7 +274,7 @@ export function HeroSection({ language }: HeroSectionProps) {
             </motion.div>
 
             {/* Main content */}
-            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl items-center px-6 lg:px-20">
+            <div className="relative z-10 mx-auto flex min-h-svh w-full max-w-7xl items-start px-6 pt-28 pb-10 sm:pt-32 lg:items-center lg:px-20 lg:py-0">
                 {/* Desktop: split layout */}
                 <div className="hidden w-full items-center justify-between lg:flex">
                     <div className="absolute bottom-0 left-1/2 z-0 -translate-x-1/2">
@@ -350,11 +364,12 @@ export function HeroSection({ language }: HeroSectionProps) {
                     >
                         <StaggeredText
                             text="Intra Sepriansa"
+                            className="block"
                             initialDelay={0.12}
                         />
                     </motion.h1>
 
-                    <div className="my-8 sm:my-10">
+                    <div className="my-6 sm:my-8">
                         <PortraitVisual alt={copy.portraitAlt} compact />
                     </div>
 
@@ -363,7 +378,7 @@ export function HeroSection({ language }: HeroSectionProps) {
                         initial="hidden"
                         animate="visible"
                         variants={textVariants}
-                        className="mx-auto max-w-[22rem] text-3xl leading-[1.1] font-bold tracking-normal sm:text-4xl"
+                        className="mx-auto max-w-[22rem] text-3xl leading-[1.08] font-bold tracking-normal sm:text-4xl"
                     >
                         <span>
                             <StaggeredText
@@ -383,7 +398,7 @@ export function HeroSection({ language }: HeroSectionProps) {
                         initial="hidden"
                         animate="visible"
                         variants={textVariants}
-                        className="mt-4 max-w-sm text-sm leading-relaxed text-slate-500 dark:text-slate-400"
+                        className="mt-4 max-w-[21rem] text-sm leading-relaxed text-slate-500 dark:text-slate-400"
                     >
                         {copy.mobileDescription}
                     </motion.p>
@@ -413,16 +428,20 @@ export function HeroSection({ language }: HeroSectionProps) {
             </div>
 
             {/* Resume button - bottom right */}
-            <motion.a
+            <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.2 }}
-                href="#"
-                className="absolute right-8 bottom-8 z-20 hidden items-center gap-2 text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase transition-colors hover:text-indigo-500 lg:flex dark:text-slate-500 dark:hover:text-indigo-400"
+                className="absolute right-8 bottom-8 z-20 hidden lg:block"
             >
-                {copy.resume}
-                <Download className="h-3.5 w-3.5" />
-            </motion.a>
+                <Link
+                    href={cv.url()}
+                    className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase transition-colors hover:text-indigo-500 dark:text-slate-500 dark:hover:text-indigo-400"
+                >
+                    {copy.resume}
+                    <Download className="h-3.5 w-3.5" />
+                </Link>
+            </motion.div>
 
             {/* Scroll indicator */}
             <motion.button
